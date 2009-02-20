@@ -3,11 +3,11 @@
 require_once(dirname(__FILE__) .'/../../cs-content/cs_phpDB.class.php');
 require_once(dirname(__FILE__) .'/../../cs-content/cs_globalFunctions.class.php');
 require_once(dirname(__FILE__) .'/../../cs-versionparse/cs_version.abstract.class.php');
-require_once(dirname(__FILE__) .'/../csb_location.class.php');
-require_once(dirname(__FILE__) .'/../csb_permission.class.php');
+require_once(dirname(__FILE__) .'/cs_location.class.php');
+require_once(dirname(__FILE__) .'/cs_permission.class.php');
 
 
-abstract class csb_dataLayerAbstract extends cs_versionAbstract {
+abstract class cs_cmsDataLayerAbstract extends cs_versionAbstract {
 	
 	/**  */
 	protected $gfObj;
