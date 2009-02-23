@@ -51,6 +51,10 @@ if ( file_exists($config_file) ) {
 	}
 	unset($config);
 }
+else {
+	exit(__METHOD__ .": no config file (". $config_file .")");
+}
+
 
 $gacl_api = new gacl_admin_api($gacl_options);
 

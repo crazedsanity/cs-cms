@@ -51,7 +51,7 @@ class gacl {
 	/*
 	--- phpGACL Configuration path/file ---
 	*/
-	var $config_file = './gacl.ini.php';
+	var $config_file = 'gacl.ini.php';
 
 	/*
 	--- Private properties ---
@@ -108,7 +108,7 @@ class gacl {
 	 * @param array An arry of options to oeverride the class defaults
 	 */
 	function gacl($options = NULL) {
-
+		$this->config = dirname(__FILE__) .'/gacl.ini.php';
 		$available_options = array('db','debug','items_per_page','max_select_box_items','max_search_return_items','db_table_prefix','db_type','db_host','db_user','db_password','db_name','caching','force_cache_expire','cache_dir','cache_expire_time');
 
 		//Values supplied in $options array overwrite those in the config file.

@@ -14,11 +14,11 @@ debug 			= FALSE
 ;
 ;Database
 ;
-db_type 		= "mysql"
+db_type 		= "postgres8"
 db_host			= "localhost"
-db_user			= "root"
+db_user			= "postgres"
 db_password		= ""
-db_name			= "gacl"
+db_name			= "buzzkill_cms"
 db_table_prefix		= ""
 
 ;
