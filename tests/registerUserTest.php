@@ -1,12 +1,15 @@
 <?php
 
+require_once(dirname(__FILE__) .'/../RegisterUser.class.php');
+require_once(dirname(__FILE__) .'/../Logger.class.php');
+require_once(dirname(__FILE__) .'/../Upgrade.class.php');
+
+use crazedsanity\RegisterUser;
 
 class RegisterUserTest extends testDbAbstract {
 	
 	//--------------------------------------------------------------------------
 	function __construct() {
-		$this->gfObj = new cs_globalFunctions;
-		$this->gfObj->debugPrintOpt=1;
 		parent::__construct();
 	}//end __construct()
 	//--------------------------------------------------------------------------
@@ -15,9 +18,6 @@ class RegisterUserTest extends testDbAbstract {
 	
 	//--------------------------------------------------------------------------
 	function setUp() {
-		$this->gfObj = new cs_globalFunctions;
-		$this->gfObj->debugPrintOpt=1;
-		
 		$this->reset_db(dirname(__FILE__) .'/../setup/schema.pgsql.sql');
 		parent::setUp();
 	}//end setUp()
@@ -35,7 +35,7 @@ class RegisterUserTest extends testDbAbstract {
 	
 	//--------------------------------------------------------------------------
 	public function testRegistration() {
-		$regUser = new cs_registerUser($this->dbObj);
+		$regUser = new RegisterUser($this->dbObj);
 		$this->assertTrue(is_object($regUser));
 //		$this->assertEquals($this->dbObj, $regUser->dbObj);
 		
