@@ -16,15 +16,15 @@ class TestOfCSPHPDB extends testDbAbstract {
 	
 	//-------------------------------------------------------------------------
 	/**
-	 * @covers cs_phpDB::beginTrans
-	 * @covers cs_phpDB::get_transaction_status
-	 * @covers cs_phpDB::farray_fieldnames
-	 * @covers cs_phpDB::get_dbType
-	 * @covers cs_phpDB::run_query
-	 * @covers cs_phpDB::run_insert
-	 * @covers cs_phpDB::farray_nvp
-	 * @covers cs_phpDB::commitTrans
-	 * @covers cs_phpDB::farray
+	 * @covers Database::beginTrans
+	 * @covers Database::get_transaction_status
+	 * @covers Database::farray_fieldnames
+	 * @covers Database::get_dbType
+	 * @covers Database::run_query
+	 * @covers Database::run_insert
+	 * @covers Database::farray_nvp
+	 * @covers Database::commitTrans
+	 * @covers Database::farray
 	 */
 	public function test_basics() {
 		$this->assertTrue(is_object($this->dbObj), "No database objects to test");
@@ -213,4 +213,3 @@ class TestOfCSPHPDB extends testDbAbstract {
 	
 	
 }
-?>
