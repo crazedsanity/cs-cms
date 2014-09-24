@@ -1,16 +1,17 @@
 <?php
 
-require_once(dirname(__FILE__) .'/../abstract/testDb.abstract.class.php');
-require_once(dirname(__FILE__) .'/../abstract/cs_webapplibs.abstract.class.php');
-require_once(dirname(__FILE__) .'/../cs_webdblogger.class.php');
+require_once(dirname(__FILE__) .'/../testDb.abstract.class.php');
+require_once(dirname(__FILE__) .'/../Logger.class.php');
+require_once(dirname(__FILE__) .'/../Upgrade.class.php');
 
-class testOfCSWebDbLogger extends testDbAbstract {
+use crazedsanity\Logger;
+use crazedsanity\cs_global;
+
+class LoggerTest extends testDbAbstract {
 	
 	
 	//--------------------------------------------------------------------------
 	function __construct() {
-		$this->gfObj = new cs_globalFunctions;
-		$this->gfObj->debugPrintOpt=1;
 		parent::__construct();
 	}//end __construct()
 	//--------------------------------------------------------------------------
@@ -19,9 +20,6 @@ class testOfCSWebDbLogger extends testDbAbstract {
 	
 	//--------------------------------------------------------------------------
 	function setUp() {
-		$this->gfObj = new cs_globalFunctions;
-		$this->gfObj->debugPrintOpt=1;
-		
 		$this->reset_db(dirname(__FILE__) .'/../setup/schema.pgsql.sql');
 		parent::setUp();
 	}//end setUp()
@@ -45,7 +43,7 @@ class testOfCSWebDbLogger extends testDbAbstract {
 		$myCache = $log->logClassCache;
 		
 		$this->assertTrue(is_array($myCache));
-		$this->assertEquals(count($myCache), 0, "Expected no categories, found some::: ". $this->gfObj->debug_print($myCache,0));
+		$this->assertEquals(count($myCache), 0, "Expected no categories, found some::: ". cs_global::debug_print($myCache,0));
 		
 		$categoryName = "TEST";
 		
@@ -85,7 +83,7 @@ class testOfCSWebDbLogger extends testDbAbstract {
 	
 	
 	public function test_get_logs() {
-		$x = new cs_webdblogger($this->dbObj, __CLASS__);
+		$x = new Logger($this->dbObj, __CLASS__);
 		
 		// create some logs to search through.
 //		$x->log_by_class(__METHOD__, "error");
@@ -145,13 +143,12 @@ class testOfCSWebDbLogger extends testDbAbstract {
 	
 }
 
-class _logTester extends cs_webdblogger {
-	public function __construct(cs_phpDB $db) {
+class _logTester extends Logger {
+	public function __construct(\crazedsanity\Database $db) {
 		$this->db = $db;
-		$this->gfObj = new cs_globalFunctions();
 	}
 	
-	public function init(cs_phpDB $db, $logCategory=null, $checkForUpgrades=true) {
+	public function init(\crazedsanity\Database $db, $logCategory=null, $checkForUpgrades=true) {
 		parent::__construct($db, $logCategory, $checkForUpgrades);
 	}
 	
@@ -217,4 +214,3 @@ class _logTester extends cs_webdblogger {
 // <<<< MAGIC METHODS....
 }
 
-?>
