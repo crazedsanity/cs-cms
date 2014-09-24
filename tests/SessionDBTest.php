@@ -1,5 +1,13 @@
 <?php
 
+use crazedsanity\Session;
+use crazedsanity\SessionDB;
+use \testDbAbstract;
+
+require_once(dirname(__FILE__) .'/../Session.class.php');
+require_once(dirname(__FILE__) .'/../SessionDB.class.php');
+require_once(dirname(__FILE__) .'/../Logger.class.php');
+
 class testOfCSSessionDB extends testDbAbstract {
 	
 	public function __construct() {
@@ -93,7 +101,7 @@ class testOfCSSessionDB extends testDbAbstract {
 }
 
 
-class sessionTester extends cs_sessionDB {
+class sessionTester extends SessionDB {
 	public function __get($name) {
 		return ($this->$name);
 	}
@@ -102,7 +110,7 @@ class sessionTester extends cs_sessionDB {
 		$this->$name = $value;
 	}
 	
-	public function __construct(cs_phpdb $db) {
+	public function __construct(crazedsanity\Database $db) {
 		$this->db = $db;
 		parent::__construct(false, $db);
 	}
