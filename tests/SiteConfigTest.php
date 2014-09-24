@@ -1,5 +1,9 @@
 <?php
 
+require_once(dirname(__FILE__) .'/../SiteConfig.class.php');
+require_once(dirname(__FILE__) .'/../FileSystem.class.php');
+use crazedsanity\SiteConfig;
+use crazedsanity\FileSystem;
 
 class SiteConfigTest extends PHPUnit_Framework_TestCase {
 	
@@ -36,14 +40,14 @@ class SiteConfigTest extends PHPUnit_Framework_TestCase {
 		
 		$configFile = dirname(__FILE__) .'/files/siteConfig.xml';
 		$this->assertTrue(file_exists($configFile));
-		$x = new cs_siteConfig($configFile, null);
+		$x = new SiteConfig($configFile, null);
 		$this->assertTrue(is_object($x));
 		$this->assertTrue(is_array($x->config));
 		
 		
 		$this->assertTrue(is_array($GLOBALS));
 		
-		$myFs = new cs_fileSystem(dirname(__FILE__));
+		$myFs = new FileSystem(dirname(__FILE__));
 		
 		$this->assertEquals($myFs->resolve_path_with_dots(dirname($configFile) .'/..'), $GLOBALS['SITE_ROOT']);
 		$this->assertEquals($GLOBALS['SITE_ROOT'], $GLOBALS['SITEROOT']);

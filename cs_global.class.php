@@ -154,7 +154,7 @@ class cs_global {
 				//build final product.
 				foreach($array as $field=>$value) {
 					$sqlQuotes = 1;
-					if(($value === "NULL" || $value === NULL) && !cs_global::forceSqlQuotes) {
+					if(($value === "NULL" || $value === NULL)) {
 						$sqlQuotes = 0;
 					}
 					if($cleanString && !(preg_match('/^\'/',$value) && preg_match('/\'$/', $value))) {
@@ -182,7 +182,7 @@ class cs_global {
 				foreach($array as $field=>$value) {
 					if($cleanString) {
 						//make sure it doesn't have crap in it...
-						$value = cs_global::cleanString($value, "sql", cs_global::forceSqlQuotes);
+						$value = cs_global::cleanString($value, "sql");
 						$value = "'". $value ."'";
 					}
 					$retval = cs_global::create_list($retval, $value, ", ");
@@ -210,7 +210,7 @@ class cs_global {
 					if(is_array($value)) {
 						//doing tricksie things!!!
 						$retval = cs_global::create_list($retval, $field ." IN (". cs_global::string_from_array($value) .")",
-								" $delimiter ", cs_global::forceSqlQuotes);
+								" $delimiter ");
 					}
 					else {
 						//if there's already an operator ($separator), don't specify one.
@@ -219,7 +219,7 @@ class cs_global {
 						}
 						if($cleanString) {
 							//make sure it doesn't have crap in it...
-							$value = cs_global::cleanString($value, "sql", cs_global::forceSqlQuotes);	
+							$value = cs_global::cleanString($value, "sql");	
 						}
 						if(isset($separator)) {
 							$value = "'". $value ."'";	
@@ -283,7 +283,7 @@ class cs_global {
 					if($cleanString) {
 						$value = cs_global::cleanString($value, $cleanString);
 					}
-					$retval = cs_global::create_list($retval, $value, $separator, cs_global::forceSqlQuotes);
+					$retval = cs_global::create_list($retval, $value, $separator);
 				}
 				//++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 			}
