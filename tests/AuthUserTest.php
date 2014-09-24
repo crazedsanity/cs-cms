@@ -1,7 +1,16 @@
 <?php
 
+require_once(dirname(__FILE__) .'/../Session.class.php');
+require_once(dirname(__FILE__) .'/../Logger.class.php');
+require_once(dirname(__FILE__) .'/../SessionDB.class.php');
+require_once(dirname(__FILE__) .'/../AuthUser.class.php');
 
-class AuthUserTest extends testDbAbstract {
+use crazedsanity\AuthUser;
+use crazedsanity\cs_global;
+use crazedsanity\Session;
+use crazedsanity\SessionDB;
+
+class AuthUserTest extends \testDbAbstract {
 	
 	public $userInfo = array(
 		'username'	=> 'test',
@@ -17,7 +26,7 @@ class AuthUserTest extends testDbAbstract {
 		$this->reset_db(dirname(__FILE__) .'/../setup/schema.pgsql.sql');
 	}
 	public function tearDown(){
-		parent::tearDown();
+//		parent::tearDown();
 		unset($_SESSION);
 	}
 	
@@ -68,7 +77,7 @@ class AuthUserTest extends testDbAbstract {
 	
 	
 	public function test_validBaseData() {
-		//$x = new cs_authUser($this->dbObj);
+		//$x = new AuthUser($this->dbObj);
 		$x = new _test_authUser($this->dbObj);
 
 		$this->assertFalse($x->is_authenticated());
@@ -110,7 +119,8 @@ class AuthUserTest extends testDbAbstract {
 		$this->assertEquals(999, $_SESSION['uid']);
 	}
 	
-	
+	/**
+	 */
 	public function test_simpleAuthentication() {
 		$this->assertFalse(isset($_SESSION));
 		
@@ -152,7 +162,7 @@ class AuthUserTest extends testDbAbstract {
 		
 		$compareOriginal = $originalUserData;
 		$compareUpdated = $updatedUserInfo;
-		$this->assertEquals(cs_authUser::STATUS_ENABLED, $updatedUserInfo['user_status_id']);
+		$this->assertEquals(AuthUser::STATUS_ENABLED, $updatedUserInfo['user_status_id']);
 		unset($compareOriginal['passwd'], $compareUpdated['passwd']);
 		$this->assertEquals($compareOriginal, $compareUpdated);
 		
@@ -183,7 +193,7 @@ class AuthUserTest extends testDbAbstract {
 	
 	
 	public function test_update_passwd_with_null() {
-		$x = new cs_authUser($this->dbObj);
+		$x = new AuthUser($this->dbObj);
 		
 		try {
 			$this->assertFalse($x->update_passwd(array('username'=>'test'), null));
@@ -199,7 +209,7 @@ class AuthUserTest extends testDbAbstract {
 	
 	
 	public function test_update_password_with_invalid_username() {
-		$x = new cs_authUser($this->dbObj);
+		$x = new AuthUser($this->dbObj);
 		try {
 			$x->update_passwd(99999999, "");
 			$this->fail("updating password for non-existent user worked");
@@ -212,7 +222,7 @@ class AuthUserTest extends testDbAbstract {
 	
 	
 	public function test_get_user_data() {
-		$x = new cs_authUser($this->dbObj);
+		$x = new AuthUser($this->dbObj);
 		
 		$data = $x->get_user_data('test', $x::STATUS_ENABLED);
 		$this->assertTrue(is_array($data), cs_global::debug_print($data));
@@ -254,7 +264,7 @@ class AuthUserTest extends testDbAbstract {
 	
 	
 	public function test_update_user_data() {
-		$x = new cs_authUser($this->dbObj);
+		$x = new AuthUser($this->dbObj);
 		
 		$data = $x->get_user_data('test', $x::STATUS_ENABLED);
 		
@@ -306,7 +316,7 @@ class AuthUserTest extends testDbAbstract {
 	}
 }
 
-class _test_authUser extends cs_authUser {
+class _test_authUser extends AuthUser {
 	public function __construct($db){
 		parent::__construct($db, false);
 	}
@@ -320,9 +330,16 @@ class _test_authUser extends cs_authUser {
 	public function get_user_data($uid, $onlyStatus=self::STATUS_ENABLED) {
 		return parent::get_user_data($uid, $onlyStatus);
 	}
+	
+	public function __sleep() {
+		return array();
+	}
+	public function __wakeup() {
+		return array();
+	}
 }
 
-class _empty_testAuthUser extends cs_authUser {
+class _empty_testAuthUser extends AuthUser {
 	public function __construct($db=null) {
 	}
 }
