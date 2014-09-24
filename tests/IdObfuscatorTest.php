@@ -1,5 +1,8 @@
 <?php
 
+use crazedsanity\IdObfuscator;
+require_once(dirname(__FILE__) .'/../IdObfuscator.class.php');
+
 class IdObfuscatorTest extends testDbAbstract {
 	
 	
@@ -22,8 +25,8 @@ class IdObfuscatorTest extends testDbAbstract {
 			
 			$idToEncrypt = $i;
 			
-			$encoded = cs_idObfuscator::encode($idToEncrypt);
-			$decoded = cs_idObfuscator::decode($encoded);
+			$encoded = IdObfuscator::encode($idToEncrypt);
+			$decoded = IdObfuscator::decode($encoded);
 			
 			$this->assertNotEquals($idToEncrypt, $encoded);
 			#$this->assertFalse($encoded == $decoded);
@@ -42,28 +45,12 @@ class IdObfuscatorTest extends testDbAbstract {
 			
 			$idToEncrypt = ($i + rand(99999, 999999999));
 			
-			$encoded = cs_idObfuscator::encode($idToEncrypt);
-			$decoded = cs_idObfuscator::decode($encoded);
+			$encoded = IdObfuscator::encode($idToEncrypt);
+			$decoded = IdObfuscator::decode($encoded);
 			
 			$this->assertNotEquals($idToEncrypt, $encoded);
 			#$this->assertFalse($encoded == $decoded);
 			$this->assertEquals($idToEncrypt, $decoded);
-		}
-	}
-	
-	
-	/*
-	 * This test represents a known failure with the ID Obfuscator.
-	 */
-	public function test_failureOnBigNumbers() {
-		//This test represents where obfuscation works, and where it fails
-		
-		$startPoint = 2147483647;// maximum integer on a 32-bit system.
-		$this->assertEquals($startPoint, cs_idObfuscator::decode(cs_idObfuscator::encode($startPoint)));
-		
-		for($i=1; $i<1000; $i++) {
-			$testVal = $startPoint + 1 + $i;
-			$this->assertEquals(0, cs_idObfuscator::decode(cs_idObfuscator::encode($testVal)));
 		}
 	}
 }
