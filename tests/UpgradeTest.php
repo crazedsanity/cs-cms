@@ -1,13 +1,16 @@
 <?php
 
-class testOfCSWebDbUpgrade extends testDbAbstract {
+use crazedsanity\Upgrade;
+use crazedsanity\Lockfile;
+
+require_once(dirname(__FILE__) .'/../Upgrade.class.php');
+
+class UpgradeTest extends testDbAbstract {
 	
 	public $fileToVersion = array();
 	
 	//--------------------------------------------------------------------------
 	function __construct() {
-		$this->gfObj = new cs_globalFunctions;
-		$this->gfObj->debugPrintOpt=1;
 		@unlink(dirname(__FILE__) .'/files/rw/upgrade.lock');
 		parent::__construct();
 		
@@ -23,9 +26,6 @@ class testOfCSWebDbUpgrade extends testDbAbstract {
 	
 	//--------------------------------------------------------------------------
 	function setUp() {
-		$this->gfObj = new cs_globalFunctions;
-		$this->gfObj->debugPrintOpt=1;
-		
 		$this->reset_db(dirname(__FILE__) .'/../setup/schema.pgsql.sql');
 		parent::setUp();
 	}//end setUp()
@@ -154,7 +154,7 @@ class testOfCSWebDbUpgrade extends testDbAbstract {
 	public function test_lockingLogic() {
 		$x = new upgradeTester();
 		$this->assertEquals(0, $x->_getCalls());
-		$x->lockObj = new cs_lockfile(dirname(__FILE__) .'/files/rw', "unittest.lock");
+		$x->lockObj = new Lockfile(dirname(__FILE__) .'/files/rw', "unittest.lock");
 		$x->databaseVersion = '1.2.3';
 		
 		try {
@@ -336,15 +336,15 @@ class testOfCSWebDbUpgrade extends testDbAbstract {
 	public function test_manualUpgrades() {
 		
 		/*
-		 * NOTE::: this is a *simulated* normal call, as using cs_webdbupgrade{} 
+		 * NOTE::: this is a *simulated* normal call, as using Upgrade{} 
 		 *	directly would not allow testing of protected members.
 		 */
 		$x = new upgradeTester();
 //		$x->lockObj = new cs_lockfile();
 		$this->assertEquals(0, $x->_getCalls());
 		
-		$this->assertTrue(is_numeric(cs_webdbupgrade::UPGRADE_SCRIPTED));
-		$this->assertTrue(is_numeric(cs_webdbupgrade::UPGRADE_VERSION_ONLY));
+		$this->assertTrue(is_numeric(Upgrade::UPGRADE_SCRIPTED));
+		$this->assertTrue(is_numeric(Upgrade::UPGRADE_VERSION_ONLY));
 		
 		$x->doSetup(
 				dirname(__FILE__) .'/files/VERSION-1', 
@@ -373,7 +373,7 @@ class testOfCSWebDbUpgrade extends testDbAbstract {
 		
 		// version only upgrade.
 		{
-			$this->assertEquals(cs_webdbupgrade::UPGRADE_VERSION_ONLY, $x->do_single_upgrade('0.0.1', '0.1.0'));
+			$this->assertEquals(Upgrade::UPGRADE_VERSION_ONLY, $x->do_single_upgrade('0.0.1', '0.1.0'));
 
 			//this method doesn't care about lock files...
 			$this->assertFalse($x->is_upgrade_in_progress());
@@ -382,7 +382,7 @@ class testOfCSWebDbUpgrade extends testDbAbstract {
 		
 		//Test a scripted upgrade..
 		{
-			$this->assertEquals(cs_webdbupgrade::UPGRADE_SCRIPTED, $x->do_single_upgrade('0.1.0', '1.0'));
+			$this->assertEquals(Upgrade::UPGRADE_SCRIPTED, $x->do_single_upgrade('0.1.0', '1.0'));
 			$this->assertTrue(file_exists('upgrade_001.do_upgrade.test'));
 			$this->assertTrue(unlink('upgrade_001.do_upgrade.test'));
 			$this->assertEquals($x->parse_version_string('1.0'), $x->get_database_version());
@@ -391,14 +391,14 @@ class testOfCSWebDbUpgrade extends testDbAbstract {
 		//another version-only upgrade...
 		{
 			$this->assertFalse($x->is_upgrade_in_progress());
-			$this->assertEquals(cs_webdbupgrade::UPGRADE_VERSION_ONLY, $x->do_single_upgrade('1.0', '1.1.1'));
+			$this->assertEquals(Upgrade::UPGRADE_VERSION_ONLY, $x->do_single_upgrade('1.0', '1.1.1'));
 			
 		}
 		
 		//final version-only upgrade.
 		{
 			$this->assertFalse($x->is_upgrade_in_progress());
-			$this->assertEquals(cs_webdbupgrade::UPGRADE_VERSION_ONLY, $x->do_single_upgrade('1.1.1', '1.3'));
+			$this->assertEquals(Upgrade::UPGRADE_VERSION_ONLY, $x->do_single_upgrade('1.1.1', '1.3'));
 		}
 		
 		//
@@ -452,9 +452,9 @@ class testOfCSWebDbUpgrade extends testDbAbstract {
 
 
 /***
- * Exposes some of the innards of cs_webdbupgrade{}
+ * Exposes some of the innards of Upgrade{}
  */
-class upgradeTester extends cs_webdbupgrade {
+class upgradeTester extends Upgrade {
 	
 	public function __construct() {
 		parent::$cache = array();
@@ -463,7 +463,7 @@ class upgradeTester extends cs_webdbupgrade {
 	}//end __construct()
 	
 	
-	public function doSetup($versionFileLocation, $upgradeConfigFile, cs_phpDB $db = null, $rwDir=null, $lockFile = 'unittest_upgrade.lock') {
+	public function doSetup($versionFileLocation, $upgradeConfigFile, \crazedsanity\Database $db = null, $rwDir=null, $lockFile = 'unittest_upgrade.lock') {
 		if(is_null($rwDir) || !strlen($rwDir)) {
 			$rwDir = dirname(__FILE__) .'/files/rw';
 		}
