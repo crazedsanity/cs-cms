@@ -1,10 +1,13 @@
 <?php
 
+require_once(dirname(__FILE__) .'/../Bitwise.class.php');
+require_once(dirname(__FILE__) .'/../Permission.class.php');
+use crazedsanity\Bitwise;
+use crazedsanity\Permission;
+
 class testOfCSPermission extends testDbAbstract {
 	public function test_bitwise() {
 		$p = new _perm(); //this ensures the class file has been included
-		
-		//$gf = new cs_globalFunctions();
 		
 		$perms = array(
 			'crud'	=> 15,
@@ -180,9 +183,8 @@ class testOfCSPermission extends testDbAbstract {
 	}
 }
 
-class _perm extends cs_permission {
+class _perm extends Permission {
 	public function __construct() {
-		$this->gf = new cs_globalFunctions();
 	}
 }
 
