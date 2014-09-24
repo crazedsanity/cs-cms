@@ -1,5 +1,8 @@
 <?php
 
+use crazedsanity\Lockfile;
+use crazedsanity\cs_global;
+
 class LockfileTest extends PHPUnit_Framework_TestCase {
 	public $fs;
 	public $dir;
@@ -49,7 +52,7 @@ class LockfileTest extends PHPUnit_Framework_TestCase {
 
 			$lf = new _test_csLockfile($this->dir, $myFile);
 			$this->assertEquals($myFile, $lf->lockFile);
-			$this->assertFalse(file_exists($myFile));
+			$this->assertFalse(file_exists($myFile), "lockfile (". $myFile .") exists but should not");
 
 			$lf->create_lockfile($myTestContents);
 			$this->assertEquals($this->dir .'/'. $myFile, $lf->get_lockfile(), cs_global::debug_print($lf,0));
@@ -146,7 +149,7 @@ class LockfileTest extends PHPUnit_Framework_TestCase {
 }
 
 
-class _test_csLockfile extends cs_lockfile {
+class _test_csLockfile extends Lockfile {
 	public function __construct($path, $lockFile='aaaaaa.lock') {
 		parent::__construct($path, $lockFile);
 	}
@@ -165,7 +168,7 @@ class _test_csLockfile2 extends _test_csLockfile {
 	}
 }
 
-class _test_csLockfile_noArg extends cs_lockfile {
+class _test_csLockfile_noArg extends Lockfile {
 	public function __construct($path=null, $file=null) {
 		parent::__construct(null, null);
 	}
