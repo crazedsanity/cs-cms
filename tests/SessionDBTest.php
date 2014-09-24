@@ -1,6 +1,5 @@
 <?php
 
-use crazedsanity\Session;
 use crazedsanity\SessionDB;
 use \testDbAbstract;
 

@@ -25,7 +25,7 @@ class AuthTokenTest extends \testDbAbstract {
 	
 	
 	public function tearDown() {
-		parent::tearDown();
+//		parent::tearDown();
 	}
 	
 	
