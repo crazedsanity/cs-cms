@@ -27,18 +27,22 @@ class RegisterUserTest extends testDbAbstract {
 	
 	//--------------------------------------------------------------------------
 	public function tearDown() {
-		parent::tearDown();
+//		parent::tearDown();
 	}//end tearDown()
 	//--------------------------------------------------------------------------
 	
 	
 	
 	//--------------------------------------------------------------------------
-	public function testRegistration() {
+	public function test_emailValidity() {
 		$regUser = new RegisterUser($this->dbObj);
 		$this->assertTrue(is_object($regUser));
 //		$this->assertEquals($this->dbObj, $regUser->dbObj);
 		
+		
+		$this->assertTrue($regUser->check_email_validity('foo@bar.com'));
+		$this->assertTrue($regUser->check_email_validity('x.y_z-123@mail.poop.cz'));
+		$this->assertFalse($regUser->check_email_validity('x@y.z'));
 	}
 	//--------------------------------------------------------------------------
 

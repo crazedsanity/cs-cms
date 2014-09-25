@@ -5,7 +5,6 @@ namespace crazedsanity;
 use crazedsanity\base;
 use crazedsanity\Database;
 use crazedsanity\Logger;
-use crazedsanity\Upgrade;
 use crazedsanity\cs_global;
 
 class RegisterUser extends base {
@@ -105,7 +104,7 @@ class RegisterUser extends base {
 	
 	
 	//-------------------------------------------------------------------------
-	public function check_email_validity($emailAddr, $giveReasonOnFail=false) {
+	public function check_email_validity($emailAddr) {
 		$retval = false;
 		if(strlen($emailAddr)) {
 			$cleaned = cs_global::cleanString($emailAddr, 'email');
@@ -113,17 +112,6 @@ class RegisterUser extends base {
 			$emailRegex = '/^[A-Z0-9\._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i';
 			if($emailAddr == $cleaned && preg_match($emailRegex, $emailAddr)) {
 				$retval = true;
-			}
-			
-			if($giveReasonOnFail == true) {
-				$debug = "";
-				if($emailAddr != $cleaned) {
-					$debug .= "cleaned does NOT match original";
-				}
-				if(!preg_match($emailRegex, $emailAddr)) {
-					$debug .= " || regex failed";
-				}
-				$retval = "provided email=(". $emailAddr ."), cleaned email=(". $cleaned ."), retval=(". $retval ."), debug=(". $debug .")";
 			}
 		}
 		else {
@@ -144,52 +132,43 @@ class RegisterUser extends base {
 	public function register_user($username, $password, $checkPassword, $email) {
 		if(strlen($username) && strlen($password) && strlen($checkPassword) && strlen($email)) {
 			if($this->check_username_available($username)) {
-				//check passwords.
-				$passCheck = $this->check_password_complexity($password, $checkPassword);
-				if($passCheck['result'] === true) {
-					if($this->check_email_validity($email)) {
-						//this is where we attempt to insert the user's information.
-						$insertData = array(
-							'username'	=> $username,
-							'passwd'	=> password_hash($password, PASSWORD_DEFAULT),
-							'email'		=> $email
-						);
-						$insertSql = "INSERT INTO cs_authentication_table (username, passwd, email) 
-								VALUES (:username, :passwd, :email)";
+				if($this->check_email_validity($email)) {
+					//this is where we attempt to insert the user's information.
+					$insertData = array(
+						'username'	=> $username,
+						'passwd'	=> password_hash($password, PASSWORD_DEFAULT),
+						'email'		=> $email
+					);
+					$insertSql = "INSERT INTO cs_authentication_table (username, passwd, email) 
+							VALUES (:username, :passwd, :email)";
+					
+					try {
+						$retval = $this->dbObj->run_insert($insertSql, $insertData, 'cs_authentication_table_uid_seq');
 						
-						try {
-							$retval = $this->dbObj->run_insert($insertSql, $insertData, 'cs_authentication_table_uid_seq');
-							
-							//now let's build the activation email.
-							$activateData = array(
-								'email'			=> $email,
-								'username'		=> $username,
-								'activateHash'	=> md5($retval .'-'. $username),
-								'uid'			=> $retval,
-								'HOST'			=> $_SERVER['HTTP_HOST'],
-								'username'		=> $username,
-								'password'		=> $password
-							);
-							
-							$this->logger->log_by_class("Created uid (". $retval ."), username=(". $username ."), "
-									."email=(". $email .")", 'create');
-							
-							$this->debug[__METHOD__] = $this->send_activation_email($activateData);
-						}
-						catch(Exception $e) {
-							$details = __METHOD__ .": failed to create new user, DETAILS::: ". $e->getMessage();
-							$this->logger->log_by_class($details, 'exception');
-							throw new \Exception($details);
-						}
+						//now let's build the activation email.
+						$activateData = array(
+							'email'			=> $email,
+							'username'		=> $username,
+							'activateHash'	=> md5($retval .'-'. $username),
+							'uid'			=> $retval,
+							'HOST'			=> $_SERVER['HTTP_HOST'],
+							'username'		=> $username,
+							'password'		=> $password
+						);
+						
+						$this->logger->log_by_class("Created uid (". $retval ."), username=(". $username ."), "
+								."email=(". $email .")", 'create');
+						
+						$this->debug[__METHOD__] = $this->send_activation_email($activateData);
 					}
-					else {
-						$details = __METHOD__ .": invalid email address (". $email .")";
+					catch(Exception $e) {
+						$details = __METHOD__ .": failed to create new user, DETAILS::: ". $e->getMessage();
 						$this->logger->log_by_class($details, 'exception');
 						throw new \Exception($details);
 					}
 				}
 				else {
-					$details = "Password complexity failed: >= 8 chars, 1 letter, 1 number, at least one upper and one lowercase.";
+					$details = __METHOD__ .": invalid email address (". $email .")";
 					$this->logger->log_by_class($details, 'exception');
 					throw new \Exception($details);
 				}
@@ -212,6 +191,9 @@ class RegisterUser extends base {
 	
 	
 	//-------------------------------------------------------------------
+	/**
+	 * @codeCoverageIgnore
+	 */
 	function send_activation_email($infoArr) {
 		//setup the variables for sending the email...
 		$to   = $infoArr['email'];
@@ -241,6 +223,7 @@ class RegisterUser extends base {
 	//-------------------------------------------------------------------
 	/**
 	 * Send an email to a single address with no special parsing.
+	 * @codeCoverageIgnore
 	 */
 	function send_single_email($toAddr, $subject, $body) {
 			
