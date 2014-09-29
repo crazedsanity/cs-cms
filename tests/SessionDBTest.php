@@ -22,7 +22,7 @@ class testOfCSSessionDB extends testDbAbstract {
 	
 	public function tearDown() {
 		//TODO: figure out why the schema schema disappears when this is around...
-//		parent::tearDown();
+		parent::tearDown();
 	}
 	
 	public function test_basics() {
