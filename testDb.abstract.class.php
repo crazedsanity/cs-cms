@@ -24,7 +24,7 @@ abstract class testDbAbstract extends \PHPUnit_Framework_TestCase {
 	public function __construct() {
 		$this->lock = new \crazedsanity\Lockfile(constant('UNITTEST__LOCKFILE'));
 		
-		$this->tearDown(); //make sure the database is truly in a consistent state
+		$this->reset_db(); //make sure the database is truly in a consistent state
 		$this->setUp();
 	}//end __construct()
 	//-------------------------------------------------------------------------
@@ -98,7 +98,7 @@ abstract class testDbAbstract extends \PHPUnit_Framework_TestCase {
 	 * @codeCoverageIgnore
 	 */
 	protected function tearDown() {
-		$this->reset_db();
+//		$this->reset_db();
 	}//end tearDown()
 	//-------------------------------------------------------------------------
 	

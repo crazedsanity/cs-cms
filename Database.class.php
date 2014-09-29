@@ -38,13 +38,6 @@ class Database extends base {
 	//=========================================================================
 	
 	
-	public function __sleep() {
-		return array('queryList', 'dsn', 'connectParams', 'username', 'password', 'dbType', 'fsObj', 'logFile', 'writeCommandsToFile', 'numRows');
-	}
-	public function __wakeup() {
-	}
-	
-	
 	
 	//=========================================================================
 	public function is_connected() {
@@ -53,6 +46,15 @@ class Database extends base {
 			$retval = true;
 		}
 		return($retval);
+	}
+	//=========================================================================
+	
+	
+	
+	//=========================================================================
+	public function close() {
+		$this->dbh = null;
+		$this->sth = null;
 	}
 	//=========================================================================
 	
