@@ -26,7 +26,7 @@ class FileSystem extends baseAbstract {
 
 			parent::__construct(true);
 
-			$this->root = $this->resolve_path_with_dots($rootDir);
+			$this->root = cs_global::resolve_path_with_dots($rootDir);
 
 			//set the CURRENT working directory... this should be a RELATIVE path to $this->root.
 			if(!is_null($cwd) AND (is_dir($rootDir .'/'. $cwd)) AND (!preg_match('~'. $cwd .'~', $this->root))) {
@@ -279,7 +279,7 @@ class FileSystem extends baseAbstract {
 		
 		$retval = 0;
 		$filename = $this->filename2absolute($filename);
-		$filename = $this->resolve_path_with_dots($filename);
+		$filename = cs_global::resolve_path_with_dots($filename);
 		$this->filename = $filename;
 		
 		//check to see if the file exists...
@@ -399,7 +399,7 @@ class FileSystem extends baseAbstract {
 		
 		clearstatcache();
 		
-		$filename = $this->resolve_path_with_dots($filename);
+		$filename = cs_global::resolve_path_with_dots($filename);
 		
 		//If it's a single filename beginning with a slash, strip the slash.
 		$x = array();
@@ -413,7 +413,7 @@ class FileSystem extends baseAbstract {
 			$retval = $filename;
 		} else {
 			$retval=$this->realcwd .'/'. $filename;
-			$retval = $this->resolve_path_with_dots($retval);
+			$retval = cs_global::resolve_path_with_dots($retval);
 		}
 		
 		if(!$this->check_chroot($retval, FALSE)) {
@@ -757,62 +757,6 @@ class FileSystem extends baseAbstract {
 		
 		return($retval);
 	}//end go_to_line()
-	//========================================================================================
-	
-	
-	
-	//========================================================================================
-	/**
-	 * Fix a path that contains "../".
-	 * 
-	 * EXAMPLE: changes "/home/user/blah/blah/../../test" into "/home/user/test"
-	 */
-	public function resolve_path_with_dots($path) {
-		
-		if(!is_null($path) && is_string($path) && strlen($path)) {
-			while(preg_match('/\/\//', $path)) {
-				$path = preg_replace('/\/\//', '/', $path);
-			}
-			$retval = $path;
-			if(preg_match('/\./', $path)) {
-
-				$isAbsolute = FALSE;
-				if(preg_match('/^\//', $path)) {
-					$isAbsolute = TRUE;
-					$path = preg_replace('/^\//', '', $path);
-				}
-				$pieces = explode('/', $path);
-
-				$finalPieces = array();
-				for($i=0; $i < count($pieces); $i++) {
-					$dirName = $pieces[$i];
-					if($dirName == '.') {
-						//do nothing; don't bother appending.
-					}
-					elseif($dirName == '..') {
-						array_pop($finalPieces);
-					}
-					else {
-						$finalPieces[] = $dirName;
-					}
-				}
-
-				//$retval = cs_global::string_from_array($finalPieces, NULL, '/');
-				$retval = implode('/', $finalPieces);
-				if($isAbsolute) {
-					$retval = '/'. $retval;
-				}
-			}
-		}
-		else {
-			throw new InvalidArgumentException(__METHOD__ .": invalid path (". $path .")");
-		}
-		
-		if(is_null($retval)) {
-			throw new LogicException(__METHOD__ .": returning NULL for path (". $path .")");
-		}
-		return($retval);
-	}//end resolve_path_with_dots()
 	//========================================================================================
 	
 	

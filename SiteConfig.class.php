@@ -13,6 +13,7 @@
 namespace crazedsanity;
 
 use crazedsanity\FileSystem;
+use crazedsanity\cs_global;
 use SimpleXMLElement;
 
 class SiteConfig extends baseAbstract {
@@ -126,7 +127,7 @@ class SiteConfig extends baseAbstract {
 		$value = cs_global::mini_parser($value, $replacements, '{', '}');
 		
 		if($cleanPath === true) {
-			$value = $this->fs->resolve_path_with_dots($value);
+			$value = cs_global::resolve_path_with_dots($value);
 		}
 		
 		return($value);

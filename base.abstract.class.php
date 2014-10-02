@@ -7,6 +7,9 @@ namespace crazedsanity;
 
 require_once(dirname(__FILE__) .'/Version.class.php');
 
+/**
+ * @codeCoverageIgnore
+ */
 abstract class baseAbstract {
 	
 	protected $gfObj;

@@ -4,7 +4,7 @@
  */
 
 
-class TestOfCSPHPDB extends TestDbAbstract {
+class DatabaseTest extends TestDbAbstract {
 	
 	
 	//-------------------------------------------------------------------------

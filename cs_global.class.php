@@ -858,6 +858,61 @@ class cs_global {
 	}//end clean_url()
 	//------------------------------------------------------------------------
 
-}//end cs_globalFunctions{}
 
-?>
+
+	//========================================================================================
+	/**
+	 * Fix a path that contains "../".
+	 *
+	 * EXAMPLE: changes "/home/user/blah/blah/../../test" into "/home/user/test"
+	 */
+	public static function resolve_path_with_dots($path) {
+
+		if(!is_null($path) && is_string($path) && strlen($path)) {
+			while(preg_match('/\/\//', $path)) {
+				$path = preg_replace('/\/\//', '/', $path);
+			}
+			$retval = $path;
+			if(preg_match('/\./', $path)) {
+
+				$isAbsolute = FALSE;
+				if(preg_match('/^\//', $path)) {
+					$isAbsolute = TRUE;
+					$path = preg_replace('/^\//', '', $path);
+				}
+				$pieces = explode('/', $path);
+
+				$finalPieces = array();
+				for($i=0; $i < count($pieces); $i++) {
+					$dirName = $pieces[$i];
+					if($dirName == '.') {
+						//do nothing; don't bother appending.
+					}
+					elseif($dirName == '..') {
+						array_pop($finalPieces);
+					}
+					else {
+						$finalPieces[] = $dirName;
+					}
+				}
+
+				//$retval = cs_global::string_from_array($finalPieces, NULL, '/');
+				$retval = implode('/', $finalPieces);
+				if($isAbsolute) {
+					$retval = '/'. $retval;
+				}
+			}
+		}
+		else {
+			throw new \InvalidArgumentException(__METHOD__ .": invalid path (". $path .")");
+		}
+
+		if(is_null($retval)) {
+			throw new \LogicException(__METHOD__ .": returning NULL for path (". $path .")");
+		}
+		return($retval);
+	}//end resolve_path_with_dots()
+	//========================================================================================
+
+
+}//end cs_globalFunctions{}
