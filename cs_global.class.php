@@ -75,7 +75,7 @@ class cs_global {
 	 * 
 	 * @param $array		<array> list for the array...
 	 * @param $style		<str,optional> what "style" it should be returned 
-	 *                         as (select, update, etc).
+	 *						 as (select, update, etc).
 	 * @param $separator	<str,optional> what separattes key from value: see each
 	 * 							style for more information.
 	 * @param $cleanString	<mixed,optional> clean the values in $array by sending it
@@ -370,10 +370,10 @@ class cs_global {
 				/*
 				This function is useful in preventing user-supplied text from containing HTML markup, such as in a message board or guest book application. 
 					The translations performed are:
-				      '&' (ampersand) becomes '&amp;'
-				      '"' (double quote) becomes '&quot;'.
-				      '<' (less than) becomes '&lt;'
-				      '>' (greater than) becomes '&gt;' 
+					  '&' (ampersand) becomes '&amp;'
+					  '"' (double quote) becomes '&quot;'.
+					  '<' (less than) becomes '&lt;'
+					  '>' (greater than) becomes '&gt;' 
 				*/
 	
 				$cleanThis = htmlspecialchars($cleanThis);

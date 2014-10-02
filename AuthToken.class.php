@@ -338,8 +338,8 @@ class AuthToken extends \crazedsanity\baseAbstract {
 	 * @param $pass		(str) required 'checksum' value.
 	 * 
 	 * @return (array)	Contains the following indexes:
-	 *						'result'       => true/false
-	 *						'reason'       => a "RESULT_" class constant
+	 *						'result'	   => true/false
+	 *						'reason'	   => a "RESULT_" class constant
 	 *						'stored_value' => value stored in the token (only on success)
 	 */
 	public function authenticate_token($tokenId, $pass) {

@@ -20,11 +20,11 @@ class Version {
 	
 	#abstract public function __construct();
 	//=========================================================================
-    function __construct($makeGfObj=true) {
+	function __construct($makeGfObj=true) {
 		$this->set_version_file_location(dirname(__FILE__) . '/VERSION');
 		$this->get_version();
 		$this->get_project();
-    }//end __construct()
+	}//end __construct()
 	//=========================================================================
 	
 	

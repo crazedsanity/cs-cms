@@ -22,10 +22,10 @@ abstract class baseAbstract {
 	
 	
 	//-------------------------------------------------------------------------
-    public function __construct() {
+	public function __construct() {
 		//$this->set_version_file_location(dirname(__FILE__) .'/../VERSION');
 		self::GetVersionObject();
-    }//end __construct()
+	}//end __construct()
 	//-------------------------------------------------------------------------
 	
 	

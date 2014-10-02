@@ -38,14 +38,14 @@ class AutoLoader {
 	}
 	 
 	public static function loadClass($className) {
-        // remove namespace from the className, if present.
-        $bits = explode('\\', $className);
-        if(count($bits) > 1) {
-            $className = $bits[1];
-        }
+		// remove namespace from the className, if present.
+		$bits = explode('\\', $className);
+		if(count($bits) > 1) {
+			$className = $bits[1];
+		}
 		if (isset(AutoLoader::$classNames[$className])) {
-            require_once(AutoLoader::$classNames[$className]);
-        }
+			require_once(AutoLoader::$classNames[$className]);
+		}
 	}
 	 
 }

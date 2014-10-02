@@ -25,7 +25,7 @@ class SingleTableHandler extends baseAbstract {
 	 * @param $seqName			(str) Name of sequence, used with PostgreSQL for retrieving the last inserted ID.
 	 * @param $pkeyField		(str) Name of the primary key field, for performing updates & retrieving specific records.
 	 */
-    public function __construct(Database $dbObj, $tableName, $seqName, $pkeyField) {
+	public function __construct(Database $dbObj, $tableName, $seqName, $pkeyField) {
 		parent::__construct();
 		self::$version->set_version_file_location(dirname(__FILE__) . '/VERSION');
 		
@@ -56,7 +56,7 @@ class SingleTableHandler extends baseAbstract {
 		else {
 			throw new Exception(__METHOD__ .":: invalid primary key field name (". $pkeyField .")");
 		}
-    }//end __construct()
+	}//end __construct()
 	//-------------------------------------------------------------------------
 	
 	
