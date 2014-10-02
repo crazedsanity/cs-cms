@@ -4,7 +4,7 @@ namespace crazedsanity;
 
 use crazedsanity\cs_global;
 
-class FileSystem extends base {
+class FileSystem extends baseAbstract {
 
 	public $root;		//actual root directory.
 	public $cwd;		//current directory; relative to $this->root

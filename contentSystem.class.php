@@ -4,7 +4,7 @@ namespace crazedsanity;
 
 class contentSystem {
 	
-	protected $baseDir			= NULL;			//base directory for templates & includes.			
+	protected $baseDir			= NULL;			//base directory for templates & includes.
 	protected $section			= NULL;			//section string, derived from the URL.		
 	protected $sectionArr		= array();		//array of items, for figuring out where templates & includes are.
 	protected $fullSectionArr	= array();

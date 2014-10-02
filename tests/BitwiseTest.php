@@ -1,6 +1,5 @@
 <?php
 
-require(dirname(__FILE__) .'/../Bitwise.class.php');
 class BitwiseTest extends PHPUnit_Framework_TestCase {
 	
 	public function test_isValid() {

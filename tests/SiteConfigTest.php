@@ -1,7 +1,5 @@
 <?php
 
-require_once(dirname(__FILE__) .'/../SiteConfig.class.php');
-require_once(dirname(__FILE__) .'/../FileSystem.class.php');
 use crazedsanity\SiteConfig;
 use crazedsanity\FileSystem;
 

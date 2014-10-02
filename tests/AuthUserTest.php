@@ -1,16 +1,11 @@
 <?php
 
-require_once(dirname(__FILE__) .'/../Session.class.php');
-require_once(dirname(__FILE__) .'/../Logger.class.php');
-require_once(dirname(__FILE__) .'/../SessionDB.class.php');
-require_once(dirname(__FILE__) .'/../AuthUser.class.php');
-
 use crazedsanity\AuthUser;
 use crazedsanity\cs_global;
 use crazedsanity\Session;
 use crazedsanity\SessionDB;
 
-class AuthUserTest extends \testDbAbstract {
+class AuthUserTest extends \TestDbAbstract {
 	
 	public $userInfo = array(
 		'username'	=> 'test',

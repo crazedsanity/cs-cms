@@ -8,7 +8,7 @@ use crazedsanity\Database;
 use crazedsanity\cs_global;
 use \Exception;
 
-class SingleTableHandler extends base {
+class SingleTableHandler extends baseAbstract {
 	
 	protected $tableName;
 	protected $seqName;

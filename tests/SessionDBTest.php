@@ -1,13 +1,9 @@
 <?php
 
 use crazedsanity\SessionDB;
-use \testDbAbstract;
+use \TestDbAbstract;
 
-require_once(dirname(__FILE__) .'/../Session.class.php');
-require_once(dirname(__FILE__) .'/../SessionDB.class.php');
-require_once(dirname(__FILE__) .'/../Logger.class.php');
-
-class testOfCSSessionDB extends testDbAbstract {
+class testOfCSSessionDB extends TestDbAbstract {
 	
 	public function __construct() {
 		parent::__construct();

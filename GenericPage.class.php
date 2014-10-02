@@ -2,7 +2,7 @@
 
 namespace crazedsanity;
 
-class GenericPage extends base {
+class GenericPage extends baseAbstract {
 	public $templateVars	= array();		//our copy of the global templateVars
 	public $templateFiles	= array();		//our list of template files...
 	public $templateRows	= array();		//array of block rows & their contents.

@@ -15,7 +15,7 @@ namespace crazedsanity;
 use crazedsanity\FileSystem;
 use SimpleXMLElement;
 
-class SiteConfig extends base {
+class SiteConfig extends baseAbstract {
 	
 	private $xml;
 	private $pathValues = array();

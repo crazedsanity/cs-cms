@@ -3,9 +3,8 @@
 use crazedsanity\Upgrade;
 use crazedsanity\Lockfile;
 
-require_once(dirname(__FILE__) .'/../Upgrade.class.php');
 
-class UpgradeTest extends testDbAbstract {
+class UpgradeTest extends TestDbAbstract {
 	
 	public $fileToVersion = array();
 	

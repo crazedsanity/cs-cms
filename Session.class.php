@@ -2,9 +2,9 @@
 
 namespace crazedsanity;
 
-use crazedsanity\base;
+use crazedsanity\baseAbstract;
 
-class Session extends base {
+class Session extends baseAbstract {
 
 	protected $uid;
 	protected $sid;

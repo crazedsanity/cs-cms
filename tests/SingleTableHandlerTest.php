@@ -3,13 +3,12 @@
  * Created on Jun 12, 2009
  */
 
-require_once(dirname(__FILE__) .'/../SingleTableHandler.class.php');
 
 use crazedsanity\SingleTableHandler;
 use crazedsanity\Database;
 
 
-class SingleTableHandlerTest extends testDbAbstract {
+class SingleTableHandlerTest extends TestDbAbstract {
 	
 	
 	//-------------------------------------------------------------------------

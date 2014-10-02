@@ -8,7 +8,7 @@
 namespace crazedsanity;
 use crazedsanity\cs_global;
 
-class Database extends base {
+class Database extends baseAbstract {
 	
 	public $queryList=array();
 	public $dbh;

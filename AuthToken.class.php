@@ -7,7 +7,7 @@ namespace crazedsanity;
 
 use \crazedsanity\cs_global;
 
-class AuthToken extends \crazedsanity\base {
+class AuthToken extends \crazedsanity\baseAbstract {
 	
 	/** Database object. */
 	private $db;

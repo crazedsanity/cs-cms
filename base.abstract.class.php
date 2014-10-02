@@ -7,7 +7,7 @@ namespace crazedsanity;
 
 require_once(dirname(__FILE__) .'/Version.class.php');
 
-abstract class base {
+abstract class baseAbstract {
 	
 	protected $gfObj;
 	static public $version;

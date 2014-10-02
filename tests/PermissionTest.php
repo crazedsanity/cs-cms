@@ -1,11 +1,9 @@
 <?php
 
-require_once(dirname(__FILE__) .'/../Bitwise.class.php');
-require_once(dirname(__FILE__) .'/../Permission.class.php');
 use crazedsanity\Bitwise;
 use crazedsanity\Permission;
 
-class testOfCSPermission extends testDbAbstract {
+class testOfCSPermission extends TestDbAbstract {
 	public function test_bitwise() {
 		$p = new _perm(); //this ensures the class file has been included
 		

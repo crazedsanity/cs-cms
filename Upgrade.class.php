@@ -11,7 +11,7 @@ use \LogicException;
 use \InvalidArgumentException;
 use \ErrorException;
 
-class Upgrade extends base {
+class Upgrade extends baseAbstract {
 	
 	/** Array of configuration parameters. */
 	protected $config = NULL;

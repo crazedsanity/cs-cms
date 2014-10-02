@@ -1,14 +1,11 @@
 <?php
 
 require_once('PHPUnit/Autoload.php');
-require_once(dirname(__FILE__) .'/base.abstract.class.php');
-require_once(dirname(__FILE__) .'/Lockfile.class.php');
-require_once(dirname(__FILE__) .'/Database.class.php');
 
 use crazedsanity\cs_global;
 
 //TODO: make this work for more than just PostgreSQL.
-abstract class testDbAbstract extends \PHPUnit_Framework_TestCase {
+abstract class TestDbAbstract extends \PHPUnit_Framework_TestCase {
 	
 	public $dbParams=array();
 	public $dbObj = null;

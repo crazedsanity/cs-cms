@@ -1,13 +1,13 @@
 <?php
 
-require_once(dirname(__FILE__) .'/../testDb.abstract.class.php');
+require_once(dirname(__FILE__) . '/../TestDb.abstract.class.php');
 require_once(dirname(__FILE__) .'/../Logger.class.php');
 require_once(dirname(__FILE__) .'/../Upgrade.class.php');
 
 use crazedsanity\Logger;
 use crazedsanity\cs_global;
 
-class LoggerTest extends testDbAbstract {
+class LoggerTest extends TestDbAbstract {
 	
 	
 	//--------------------------------------------------------------------------

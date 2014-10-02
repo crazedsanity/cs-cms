@@ -1,12 +1,8 @@
 <?php
 
-require_once(dirname(__FILE__) .'/../RegisterUser.class.php');
-require_once(dirname(__FILE__) .'/../Logger.class.php');
-require_once(dirname(__FILE__) .'/../Upgrade.class.php');
-
 use crazedsanity\RegisterUser;
 
-class RegisterUserTest extends testDbAbstract {
+class RegisterUserTest extends TestDbAbstract {
 	
 	//--------------------------------------------------------------------------
 	function __construct() {

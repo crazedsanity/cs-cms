@@ -8,10 +8,6 @@ date_default_timezone_set("America/Chicago");
 require_once('PHPUnit/Autoload.php');
 require_once(dirname(__FILE__) .'/../AutoLoader.class.php');
 require_once(dirname(__FILE__) .'/../debugFunctions.php');
-require_once(dirname(__FILE__) .'/../testDb.abstract.class.php');
-require_once(dirname(__FILE__) .'/../base.abstract.class.php');
-require_once(dirname(__FILE__) .'/../cs_global.class.php');
-require_once(dirname(__FILE__) .'/../FileSystem.class.php');
 
 // Handle password compatibility (using "ircmaxell/password-compat")
 {

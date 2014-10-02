@@ -2,12 +2,12 @@
 
 namespace crazedsanity;
 
-use crazedsanity\base;
+use crazedsanity\baseAbstract;
 use crazedsanity\Database;
 use crazedsanity\Logger;
 use crazedsanity\cs_global;
 
-class RegisterUser extends base {
+class RegisterUser extends baseAbstract {
 	
 	/** Database connection object */
 	private $dbObj;

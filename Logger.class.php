@@ -19,7 +19,7 @@ namespace crazedsanity;
 
 use crazedsanity\Upgrade;
 
-class Logger extends base {
+class Logger extends baseAbstract {
 	/** Database handle */
 	public $db;
 	

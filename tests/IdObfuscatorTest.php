@@ -1,9 +1,8 @@
 <?php
 
 use crazedsanity\IdObfuscator;
-require_once(dirname(__FILE__) .'/../IdObfuscator.class.php');
 
-class IdObfuscatorTest extends testDbAbstract {
+class IdObfuscatorTest extends TestDbAbstract {
 	
 	
 	public function __construct() {

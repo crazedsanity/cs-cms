@@ -4,12 +4,10 @@
  * Created on Jan 25, 2009
  */
 
-require_once(dirname(__FILE__) .'/../AuthToken.class.php');
-
 use crazedsanity\cs_global;
 use crazedsanity\AuthToken;
 
-class AuthTokenTest extends \testDbAbstract {
+class AuthTokenTest extends \TestDbAbstract {
 
 	function __construct() {
 		parent::__construct();

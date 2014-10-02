@@ -1,5 +1,6 @@
 <?php
 
+use crazedsanity\baseAbstract;
 use crazedsanity\Lockfile;
 use crazedsanity\cs_global;
 
