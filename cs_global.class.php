@@ -624,7 +624,6 @@ class cs_global {
 			}
 		}
 		else {
-			cs_debug_backtrace(1);
 			throw new exception(__METHOD__ .": no replacement array passed, or array was empty");
 		}
 

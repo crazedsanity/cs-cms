@@ -11,10 +11,18 @@ class Template {
 	private $_contents;
 	private $_name;
 	private $_templates = array();
-	
-	
-	
+	private $origin;
+	private $recursionDepth=10;
+
+
+
+	//-------------------------------------------------------------------------
+	/**
+	 * @param $file         Template file to use for contents (can be null)
+	 * @param null $name    Name to use for this template
+	 */
 	public function __construct($file, $name=null) {
+		$this->origin = $file;
 		if(!is_null($name)) {
 			$this->_name = $name;
 		}
@@ -31,9 +39,30 @@ class Template {
 		}
 
 	}
-	
-	
-	
+	//-------------------------------------------------------------------------
+
+
+	//-------------------------------------------------------------------------
+	/**
+	 * @param $newValue     How many times to recurse (default=10)
+	 */
+	public function set_recursionDepth($newValue) {
+		if(is_numeric($newValue) && $newValue > 0) {
+			$this->recursionDepth = $newValue;
+		}
+		else {
+			throw new \InvalidArgumentException();
+		}
+	}
+	//-------------------------------------------------------------------------
+
+
+
+	//-------------------------------------------------------------------------
+	/**
+	 * @param $name                 Internal var to retrieve
+	 * @return array|mixed|string   Value of internal var
+	 */
 	public function __get($name) {
 		switch($name) {
 			case 'name':
@@ -49,31 +78,81 @@ class Template {
 				throw new \InvalidArgumentException;
 		}
 	}
-	
-	
-	public function add(\crazedsanity\Template $template, $inherit=true) {
-		if($inherit === true) {
-			foreach($template->templates as $name=>$content) {
-				$this->_templates[$name] = $content;
-			}
+	//-------------------------------------------------------------------------
+
+
+
+	//-------------------------------------------------------------------------
+	/**
+	 * @param $value        Set internal contents to this value.
+	 */
+	public function setContents($value) {
+		$this->_contents = $value;
+	}
+	//-------------------------------------------------------------------------
+
+
+
+	//-------------------------------------------------------------------------
+	/**
+	 * @param Template $template    Template object to add
+	 * @param bool $render          If the template should be rendered (default=true)
+	 */
+	public function add(\crazedsanity\Template $template, $render=true) {
+		foreach($template->templates as $name=>$content) {
+			$this->_templates[$name] = $content;
 		}
-		
-		$this->_templates[$template->name] = $template->render();
+
+		if($render === true) {
+			$this->_templates[$template->name] = $template->render();
+		}
+		else {
+			$this->_templates[$template->name] = $template->contents;
+		}
 	}
+	//-------------------------------------------------------------------------
 
 
-	public function addVar($name, $value=null) {
-		$this->_templates[$name] = $value;
+
+	//-------------------------------------------------------------------------
+	/**
+	 * @param $name             Name of template var
+	 * @param null $value       Value (contents) of template
+	 * @param bool $render      See $render argument for add()
+	 */
+	public function addVar($name, $value=null, $render=true) {
+		$x = new Template(null, $name);
+		$x->setContents($value);
+		$this->add($x, $render);
 	}
-	
-	
+	//-------------------------------------------------------------------------
+
+
+
+	//-------------------------------------------------------------------------
+	/**
+	 * @param bool $stripUndefinedVars      Removes undefined template vars
+	 * @return mixed|string                 Rendered template
+	 */
 	public function render($stripUndefinedVars=true) {
 		$numLoops = 0;
 		$out = $this->_contents;
-		$out = str_replace(array_keys($this->_templates), array_values($this->_templates), $this->_contents, $numLoops);
+
+		try {
+			while (preg_match_all('~~', $out, $tags) && $numLoops < $this->recursionDepth) {
+				$out = cs_global::mini_parser($out, $this->_templates, '{', '}');
+				$numLoops++;
+			}
+		}
+		catch(\Exception $ex) {
+			Throw new \LogicException("This should never happen... ". $ex->getMessage());
+		}
+
 		if($stripUndefinedVars === true) {
 			$out = preg_replace('/\{.\S+?\}/', '', $out);
 		}
+
 		return $out;
 	}
+	//-------------------------------------------------------------------------
 }
