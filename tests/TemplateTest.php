@@ -7,7 +7,7 @@ use \Exception;
 
 class TemplateTest extends PHPUnit_Framework_TestCase {
 
-	public function txest_create() {
+	public function test_create() {
 		$justFile = new Template(dirname(__FILE__) .'/files/templates/main.tmpl');
 		$this->assertEquals('main', $justFile->name);
 		$this->assertEquals(file_get_contents(dirname(__FILE__) .'/files/templates/main.tmpl'), $justFile->contents);
@@ -30,7 +30,7 @@ class TemplateTest extends PHPUnit_Framework_TestCase {
 	}
 
 
-	public function texst_render() {
+	public function test_render() {
 		$x = new Template(dirname(__FILE__) .'/files/templates/file3.tmpl');
 		$originalContents = $x->contents;
 
@@ -45,7 +45,7 @@ class TemplateTest extends PHPUnit_Framework_TestCase {
 	}
 
 
-	public function texst_setRecursion() {
+	public function test_setRecursion() {
 		try {
 			$x = new Template(null);
 			$x->set_recursionDepth(null);
@@ -56,7 +56,7 @@ class TemplateTest extends PHPUnit_Framework_TestCase {
 	}
 
 
-	public function tesxt_recursion() {
+	public function test_recursion() {
 		$x = new Template(null, "main");
 		$x->setContents("{recursive1}");
 		$x->set_recursionDepth(50);
@@ -76,7 +76,7 @@ class TemplateTest extends PHPUnit_Framework_TestCase {
 
 
 
-	public function tesxt_origin() {
+	public function test_origin() {
 		$file = dirname(__FILE__) .'/files/templates/main.tmpl';
 		$x = new Template($file);
 		$this->assertEquals($file, $x->origin);
@@ -86,7 +86,7 @@ class TemplateTest extends PHPUnit_Framework_TestCase {
 	}
 
 
-	public function tesxt_dir() {
+	public function test_dir() {
 		$file = dirname(__FILE__) .'/files/templates/main.tmpl';
 
 		$x = new Template($file);
@@ -97,7 +97,7 @@ class TemplateTest extends PHPUnit_Framework_TestCase {
 	}
 
 
-	public function texst_basics() {
+	public function test_basics() {
 		$x = new Template(dirname(__FILE__) .'/files/templates/main.tmpl');
 
 		$one = new Template(dirname(__FILE__) .'/files/templates/file1.tmpl');
@@ -123,7 +123,7 @@ class TemplateTest extends PHPUnit_Framework_TestCase {
 
 
 	public function test_blockRows() {
-		$x = new Template(dirname(__FILE__) .'/files/templates/main.tmpl');
+		$x = new Template(dirname(__FILE__) .'/files/templates/mainWithBlockRow.tmpl');
 
 		$this->assertTrue(is_array($x->blockRows), "missing block rows array");
 		$this->assertTrue(count($x->blockRows) > 0, "no block rows found... ");

@@ -114,6 +114,7 @@ class Template {
 	/**
 	 * @param Template $template    Template object to add
 	 * @param bool $render          If the template should be rendered (default=true)
+	 * @throws \Exception           Problems with nesting of block rows
 	 */
 	public function add(\crazedsanity\Template $template, $render=true) {
 		foreach($template->templates as $name=>$content) {
@@ -137,7 +138,6 @@ class Template {
 	/**
 	 * @param $name             Name of template var
 	 * @param null $value       Value (contents) of template
-	 * @param bool $render      See $render argument for add()
 	 */
 	public function addVar($name, $value=null, $render=true) {
 		$x = new Template(null, $name);
@@ -163,8 +163,18 @@ class Template {
 			$this->addVar('__BLOCKROW__'. $name, $parsed, false); // calling render wastes time.
 		}
 
+		$rendered = array();
+		foreach($this->_templates as $name=>$obj) {
+			if(is_object($obj)) {
+				$rendered[$name] = $obj->render();
+			}
+			else {
+				$rendered[$name] = $obj;
+			}
+		}
+
 		while (preg_match_all('~\{(\S{1,})\}~', $out, $tags) && $numLoops < $this->recursionDepth) {
-			$out = cs_global::mini_parser($out, $this->_templates, '{', '}');
+			$out = cs_global::mini_parser($out, $rendered, '{', '}');
 			$numLoops++;
 		}
 
@@ -293,6 +303,14 @@ class Template {
 		else {
 			throw new \InvalidArgumentException("block row '". $name ."' does not exist... ". cs_global::debug_print($this,0));
 		}
+	}
+	//---------------------------------------------------------------------------------------------
+
+
+
+	//---------------------------------------------------------------------------------------------
+	public function __toString() {
+		return $this->render();
 	}
 	//---------------------------------------------------------------------------------------------
 }
