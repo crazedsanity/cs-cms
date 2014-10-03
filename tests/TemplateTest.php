@@ -63,4 +63,51 @@ class TemplateTest extends PHPUnit_Framework_TestCase {
 
 		$this->assertEquals(50, $num, "did not recurse... ");
 	}
+
+
+
+	public function test_origin() {
+		$file = dirname(__FILE__) .'/files/templates/main.tmpl';
+		$x = new Template($file);
+		$this->assertEquals($file, $x->origin);
+
+		$y = new Template(null);
+		$this->assertEquals(null, $y->origin);
+	}
+
+
+	public function test_dir() {
+		$file = dirname(__FILE__) .'/files/templates/main.tmpl';
+
+		$x = new Template($file);
+		$this->assertEquals(dirname($file), $x->dir, "template dir not set");
+
+		$y = new Template(null);
+		$this->assertEquals(null, $y->dir, "template dir not null when null used for filename (". $y->dir .")");
+	}
+
+
+	public function test_basics() {
+		$x = new Template(dirname(__FILE__) .'/files/templates/main.tmpl');
+
+		$one = new Template(dirname(__FILE__) .'/files/templates/file1.tmpl');
+		$one->addVar('file2', "test");
+		$one->addVar('var1', "template");
+		$one->addVar('var2', "file");
+		$one->addVar('var3', "inheritance is awesome");
+
+		$x->add($one);
+
+		$this->assertTrue((bool)preg_match('~file2: test~', $x->render()), "template inheritance failed::: ". $x->render());
+		$this->assertTrue((bool)preg_match('~file1: contents from file1~', $x->render()), "contents from file1 not loaded into main template");
+		$this->assertTrue((bool)preg_match('~template file inheritance is awesome~', $x->render()), "template var inheritance failed");
+
+		$two = new Template(dirname(__FILE__) .'/files/templates/file2.tmpl');
+		$two->addVar('var3', "was changed");
+
+		$x->add($two);
+
+		$this->assertTrue((bool)preg_match('~file2: contents from file2~', $x->render()), "new template did not work");
+		$this->assertTrue((bool)preg_match('~template file was changed~', $x->render()), "new template did not overwrite original vars");
+	}
 }

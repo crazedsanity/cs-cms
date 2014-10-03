@@ -11,7 +11,8 @@ class Template {
 	private $_contents;
 	private $_name;
 	private $_templates = array();
-	private $origin;
+	private $_origin;
+	private $_dir;
 	private $recursionDepth=10;
 
 
@@ -22,24 +23,31 @@ class Template {
 	 * @param null $name    Name to use for this template
 	 */
 	public function __construct($file, $name=null) {
-		$this->origin = $file;
+		$this->_origin = $file;
 		if(!is_null($name)) {
 			$this->_name = $name;
 		}
-		if(!is_null($file) && file_exists($file)) {
-			try {
-				if(is_null($name)) {
-					$bits = explode('/', $file);
-					$this->_name = preg_replace('~\.tmpl~', '', array_pop($bits));
+		if(!is_null($file)) {
+			if (file_exists($file)) {
+				try {
+					if (is_null($name)) {
+						$bits = explode('/', $file);
+						$this->_name = preg_replace('~\.tmpl~', '', array_pop($bits));
+					}
+					$this->_contents = file_get_contents($file);
+					$this->_dir = dirname($file);
+				} catch (Exception $ex) {
+					throw new \InvalidArgumentException;
 				}
-				$this->_contents = file_get_contents($file);
-			} catch (Exception $ex) {
-				throw new \InvalidArgumentException;
+			}
+			else {
+				throw new \InvalidArgumentException("file does not exist (". $file .")");
 			}
 		}
 
 	}
 	//-------------------------------------------------------------------------
+
 
 
 	//-------------------------------------------------------------------------
@@ -73,6 +81,12 @@ class Template {
 
 			case 'contents':
 				return $this->_contents;
+
+			case 'dir':
+				return $this->_dir;
+
+			case 'origin':
+				return $this->_origin;
 			
 			default:
 				throw new \InvalidArgumentException;
