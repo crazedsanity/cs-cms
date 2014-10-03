@@ -79,7 +79,7 @@ class Upgrade extends baseAbstract {
 	protected $lockFile='upgrade.lock';
 	
 	//=========================================================================
-	public function __construct($versionFileLocation, $upgradeConfigFile, Database $db, $rwDir=null) {
+	public function __construct($versionFileLocation, $upgradeConfig, Database $db, $rwDir=null) {
 		
 		$this->internalVersion = new Version();
 		$this->internalVersion->set_version_file_location(dirname(__FILE__) .'/VERSION');
@@ -104,12 +104,12 @@ class Upgrade extends baseAbstract {
 		
 		parent::__construct(true);
 		
-		if(!file_exists($upgradeConfigFile) || !is_readable($upgradeConfigFile)) {
+		if(!file_exists($upgradeConfig) || !is_readable($upgradeConfig)) {
 			\crazedsanity\debug_backtrace(1);
-			throw new exception(__METHOD__ .": required upgrade config file location (". $upgradeConfigFile .") not set or unreadable");
+			throw new exception(__METHOD__ .": required upgrade config file location (". $upgradeConfig .") not set or unreadable");
 		}
 		else {
-			$this->upgradeConfigFile = $upgradeConfigFile;
+			$this->upgradeConfigFile = $upgradeConfig;
 		}
 		if(!strlen($versionFileLocation) || !file_exists($versionFileLocation)) {
 			throw new exception(__METHOD__ .": unable to locate version file (". $versionFileLocation .")");
