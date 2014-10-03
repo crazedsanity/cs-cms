@@ -2,6 +2,8 @@
 
 use crazedsanity\Template;
 use crazedsanity\cs_global;
+use \InvalidArgumentException;
+use \Exception;
 
 class TemplateTest extends PHPUnit_Framework_TestCase {
 
@@ -17,6 +19,14 @@ class TemplateTest extends PHPUnit_Framework_TestCase {
 		$empty = new Template(null, "empty");
 		$this->assertEquals('empty', $empty->name);
 		$this->assertEquals(null, $empty->contents);
+
+		try {
+			$x = new Template(dirname(__FILE__) .'/invalid/path/to/main.tmpl');
+			$this->assertFalse(true, "template instantiated using an invalid filename");
+		}
+		catch(InvalidArgumentException $ex) {
+			$this->assertTrue((bool)preg_match('~file does not exist~', $ex->getMessage()), "unexpected exception message: ". $ex->getMessage());
+		}
 	}
 
 
