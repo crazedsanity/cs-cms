@@ -140,5 +140,14 @@ class TemplateTest extends PHPUnit_Framework_TestCase {
 			'third'     => array('var1'=>"The final", 'var2'=>"version", 'var3'=>"right here")
 		);
 		$x->parseBlockRow('test', $rows);
+
+		foreach($rows as $rowName=>$data) {
+			$joined = implode(' ', $data);
+			$testPosition = strpos($x->render(), $joined);
+			$this->assertTrue($testPosition !== false, " ($testPosition) rendered template is missing string '". $joined ."'... ". $x->render());
+		}
+
+		$this->assertFalse((bool)preg_match('~<!-- BEGIN ~', $x->render()), "rendered template still contains block row begin tag");
+		$this->assertFalse((bool)preg_match('~<!-- END ~', $x->render()), "rendered template still contains block row end tag");
 	}
 }

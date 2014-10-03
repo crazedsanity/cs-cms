@@ -157,11 +157,11 @@ class Template {
 		$numLoops = 0;
 		$out = $this->_contents;
 
-//		//handle block rows.
-//		$out = $this->get_block_row_defs($out);
-//		foreach($this->_templates as $k=>$v) {
-//			$this->_templates[$k] = $this->get_block_row_defs($v);
-//		}
+		//handle block rows.
+		foreach($this->_blockRows as $name=>$blockRow) {
+			$parsed = $blockRow->render();
+			$this->addVar('__BLOCKROW__'. $name, $parsed, false); // calling render wastes time.
+		}
 
 		while (preg_match_all('~\{(\S{1,})\}~', $out, $tags) && $numLoops < $this->recursionDepth) {
 			$out = cs_global::mini_parser($out, $this->_templates, '{', '}');
@@ -205,21 +205,15 @@ class Template {
 		// statement), and orphaned "END" statements (no matching "BEGIN" statements)
 		// NOTE::: by doing this, should easily be able to tell if the block rows were defined
 		// properly or not.
-		if(count($retArr['incomplete']['begin'] = array_diff($beginArr, $endArr)) > 0) {
-			//I'm sure there's an easier way to do this, but my head hurts too much when
-			// I try to do the magic.  Maybe I need to put another level in CodeMancer...
+		if(count(array_diff($beginArr, $endArr)) > 0) {
 			foreach($retArr['incomplete']['begin'] as $num=>$val) {
 				$nesting = cs_global::create_list($nesting, $val);
-				unset($beginArr[$num]);
 				$numIncomplete++;
 			}
 		}
-		if(count($retArr['incomplete']['end'] = array_diff($endArr, $beginArr)) > 0) {
-			//both of the below foreach's simply pulls undefined vars out of the
-			// proper arrays, so I don't have to deal with them later.
+		if(count(array_diff($endArr, $beginArr)) > 0) {
 			foreach($retArr['incomplete']['end'] as $num=>$val) {
 				$nesting = cs_global::create_list($nesting, $val);
-				unset($endArr[$num]);
 				$numIncomplete++;
 			}
 		}
@@ -232,29 +226,20 @@ class Template {
 		//reverse the order of the array, so when the ordered array
 		// is looped through, all block rows can be pulled.
 		foreach(array_reverse($beginArr) as $k=>$v) {
-//			$tempRow = new Template(null, $k);
-//			$tempRow->setContents($v);
-//			$this->_blockRows[$k] = $tempRow;
-
-//			$rowContents = $this->setBlockRow($templateContents, $v);
 			$tempRow = new Template(null, $v);
 			$tempRow->setContents($this->setBlockRow($templateContents, $v));
 			$this->_blockRows[$v] = $tempRow;
 
-
-//			//now strip that row out, replacing it with a template var.
-//			$templateContents = preg_replace('~<!-- BEGIN '. $k .' -->.*<!-- END '. $k .' -->~', '{__BLOCKROW__'. $k .'}', $templateContents);
-
 		}
 
 		return($templateContents);
-	}//end get_block_row_defs()
+	}
 	//---------------------------------------------------------------------------------------------
 
 
 
 	//---------------------------------------------------------------------------------------------
-	public function setBlockRow(&$contents, $handle, $removeDefs=true) {
+	private function setBlockRow(&$contents, $handle, $removeDefs=true) {
 		$name = $handle;
 
 		$reg = "/<!-- BEGIN $handle -->(.+){0,}<!-- END $handle -->/sU";
@@ -262,26 +247,27 @@ class Template {
 		if(!is_array($m) || !isset($m[0][0]) ||  !is_string($m[0][0])) {
 			throw new \Exception("could not find ". $handle ." in '". $contents ."'");
 		} else {
+
 			if($removeDefs) {
 				$openHandle = "<!-- BEGIN $handle -->";
 				$endHandle  = "<!-- END $handle -->";
 				$m[0][0] = str_replace($openHandle, "", $m[0][0]);
 				$m[0][0] = str_replace($endHandle, "", $m[0][0]);
 			}
-
-			$contents = preg_replace($reg, "{" . "$name}", $contents);
-//			$this->templateVars[$contents] = $contents;
-//			$this->templateRows[$name] = $m[0][0];
-//			$this->add_template_var($name, "");
-//			$retval = $m[0][0];
+			$contents = preg_replace($reg, "{__BLOCKROW__" . $name ."}", $contents);
 		}
-		return($contents);
+		return($m[0][0]);
 	}
 	//---------------------------------------------------------------------------------------------
 
 
 
 	//---------------------------------------------------------------------------------------------
+	/**
+	 * @param $name                     Name of the existing block row to parse
+	 * @param array $listOfVarToValue   Data to iterate through to create parsed rows.
+	 * @param null $useTemplateVar      Parse into the given name instead of the default (__BLOCKROW__$name)
+	 */
 	public function parseBlockRow($name, array $listOfVarToValue, $useTemplateVar=null) {
 		if(isset($this->_blockRows[$name])) {
 			if(is_null($useTemplateVar)) {
@@ -301,6 +287,8 @@ class Template {
 					throw new \InvalidArgumentException("malformed key value pair in row '". $row ."'");
 				}
 			}
+			unset($this->_blockRows[$name]);
+			$this->addVar($useTemplateVar, $final);
 		}
 		else {
 			throw new \InvalidArgumentException("block row '". $name ."' does not exist... ". cs_global::debug_print($this,0));
