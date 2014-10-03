@@ -7,7 +7,7 @@ use \Exception;
 
 class TemplateTest extends PHPUnit_Framework_TestCase {
 
-	public function test_create() {
+	public function txest_create() {
 		$justFile = new Template(dirname(__FILE__) .'/files/templates/main.tmpl');
 		$this->assertEquals('main', $justFile->name);
 		$this->assertEquals(file_get_contents(dirname(__FILE__) .'/files/templates/main.tmpl'), $justFile->contents);
@@ -30,7 +30,7 @@ class TemplateTest extends PHPUnit_Framework_TestCase {
 	}
 
 
-	public function test_render() {
+	public function texst_render() {
 		$x = new Template(dirname(__FILE__) .'/files/templates/file3.tmpl');
 		$originalContents = $x->contents;
 
@@ -45,7 +45,7 @@ class TemplateTest extends PHPUnit_Framework_TestCase {
 	}
 
 
-	public function test_setRecursion() {
+	public function texst_setRecursion() {
 		try {
 			$x = new Template(null);
 			$x->set_recursionDepth(null);
@@ -56,7 +56,7 @@ class TemplateTest extends PHPUnit_Framework_TestCase {
 	}
 
 
-	public function test_recursion() {
+	public function tesxt_recursion() {
 		$x = new Template(null, "main");
 		$x->setContents("{recursive1}");
 		$x->set_recursionDepth(50);
@@ -76,7 +76,7 @@ class TemplateTest extends PHPUnit_Framework_TestCase {
 
 
 
-	public function test_origin() {
+	public function tesxt_origin() {
 		$file = dirname(__FILE__) .'/files/templates/main.tmpl';
 		$x = new Template($file);
 		$this->assertEquals($file, $x->origin);
@@ -86,7 +86,7 @@ class TemplateTest extends PHPUnit_Framework_TestCase {
 	}
 
 
-	public function test_dir() {
+	public function tesxt_dir() {
 		$file = dirname(__FILE__) .'/files/templates/main.tmpl';
 
 		$x = new Template($file);
@@ -97,7 +97,7 @@ class TemplateTest extends PHPUnit_Framework_TestCase {
 	}
 
 
-	public function test_basics() {
+	public function texst_basics() {
 		$x = new Template(dirname(__FILE__) .'/files/templates/main.tmpl');
 
 		$one = new Template(dirname(__FILE__) .'/files/templates/file1.tmpl');
@@ -119,5 +119,26 @@ class TemplateTest extends PHPUnit_Framework_TestCase {
 
 		$this->assertTrue((bool)preg_match('~file2: contents from file2~', $x->render()), "new template did not work");
 		$this->assertTrue((bool)preg_match('~template file was changed~', $x->render()), "new template did not overwrite original vars");
+	}
+
+
+	public function test_blockRows() {
+		$x = new Template(dirname(__FILE__) .'/files/templates/main.tmpl');
+
+		$this->assertTrue(is_array($x->blockRows), "missing block rows array");
+		$this->assertTrue(count($x->blockRows) > 0, "no block rows found... ");
+		$this->assertEquals(1, count($x->blockRows), "failed to parse block rows from main template");
+
+		//make sure setting contents works identically to specifying contents in constructor.
+		$y = new Template(null);
+		$y->setContents(file_get_contents($x->origin));
+		$this->assertEquals($x->blockRows, $y->blockRows);
+
+		$rows = array(
+			'first'     => array('var1'=>"this", 'var2'=>"is", 'var3'=>"the first row"),
+			'second'    => array('var1'=>"And this", 'var2'=>"can be", 'var3'=>"the next(second) row"),
+			'third'     => array('var1'=>"The final", 'var2'=>"version", 'var3'=>"right here")
+		);
+		$x->parseBlockRow('test', $rows);
 	}
 }
