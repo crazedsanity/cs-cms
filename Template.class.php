@@ -173,7 +173,7 @@ class Template {
 			}
 		}
 
-		while (preg_match_all('~\{(\S{1,})\}~', $out, $tags) && $numLoops < $this->recursionDepth) {
+		while (preg_match_all('~\{(\S{1,})\}~U', $out, $tags) && $numLoops < $this->recursionDepth) {
 			$out = cs_global::mini_parser($out, $rendered, '{', '}');
 			$numLoops++;
 		}
@@ -311,6 +311,28 @@ class Template {
 	//---------------------------------------------------------------------------------------------
 	public function __toString() {
 		return $this->render();
+	}
+	//---------------------------------------------------------------------------------------------
+
+
+
+	//---------------------------------------------------------------------------------------------
+	public static function getTemplateVarDefinitions($fromContents) {
+		$matches = array();
+		preg_match_all('~\{(\S{1,})\}~U', $fromContents, $matches);
+
+		$retval = array();
+
+		foreach($matches[1] as $name) {
+			if(!isset($retval[$name])) {
+				$retval[$name] = 1;
+			}
+			else {
+				$retval[$name]++;
+			}
+		}
+
+		return $retval;
 	}
 	//---------------------------------------------------------------------------------------------
 }

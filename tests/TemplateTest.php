@@ -31,16 +31,24 @@ class TemplateTest extends PHPUnit_Framework_TestCase {
 
 
 	public function test_render() {
-		$x = new Template(dirname(__FILE__) .'/files/templates/file3.tmpl');
+
+		$x = new Template(dirname(__FILE__) .'/files/templates/main.tmpl');
+
 		$originalContents = $x->contents;
 
 		$rendered = $x->render();
 		$this->assertTrue(strlen($x->render()) > 0, "failed to render template");
 
-		$this->assertNotEquals($originalContents, $x->render(), "render did not remove loose template strings");
+		$this->assertNotEquals($originalContents, $x->render(), "render did not remove loose template vars");
+		$this->assertEquals(0, count(Template::getTemplateVarDefinitions($x->render())), "found loose template vars");
 
 		$this->assertEquals($originalContents, $x->render(false), "render removed loose template strings when told not to");
-		$x->addVar("empty");
+		$this->assertTrue(count(Template::getTemplateVarDefinitions($x->render(false))) > 0, "render removed loose template strings (second check)");
+
+		$allVars = Template::getTemplateVarDefinitions($x->render(false));
+		foreach(array_keys($allVars) as $k) {
+			$x->addVar($k);
+		}
 		$this->assertEquals($x->render(false), $x->render(true), "render failed when all template vars accounted for");
 	}
 
@@ -104,7 +112,7 @@ class TemplateTest extends PHPUnit_Framework_TestCase {
 		$one->addVar('file2', "test");
 		$one->addVar('var1', "template");
 		$one->addVar('var2', "file");
-		$one->addVar('var3', "inheritance is awesome");
+		$one->addVar('var3', " inheritance is awesome");
 
 		$x->add($one);
 
@@ -113,7 +121,7 @@ class TemplateTest extends PHPUnit_Framework_TestCase {
 		$this->assertTrue((bool)preg_match('~template file inheritance is awesome~', $x->render()), "template var inheritance failed");
 
 		$two = new Template(dirname(__FILE__) .'/files/templates/file2.tmpl');
-		$two->addVar('var3', "was changed");
+		$two->addVar('var3', " was changed");
 
 		$x->add($two);
 
