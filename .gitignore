@@ -3,3 +3,4 @@
 /*.lock
 /tests/files/rw/*
 /vendor
+/.c9
