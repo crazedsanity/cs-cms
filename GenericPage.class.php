@@ -21,7 +21,7 @@ class GenericPage extends baseAbstract {
 	const MSGTYPE_ERROR = "error";
 	const MSGTYPE_FATAL = "fatal";
 	
-	//---------------------------------------------------------------------------------------------
+	//----------------------------------------------------------------------------
 	/**
 	 * The constructor.
 	 */
@@ -35,48 +35,11 @@ class GenericPage extends baseAbstract {
 			$this->mainTemplate = new Template(null, "main");
 		}
 	}//end initialize_locals()
-	//---------------------------------------------------------------------------------------------
+	//----------------------------------------------------------------------------
 	
-	
-	
-	//---------------------------------------------------------------------------------------------
-	/**
-	 * Should just check to see if they've authenticated.  In reality, this 
-	 * just performs blind redirection if $restrictedAccess is set (and if 
-	 * redirecting is allowed).
-	 * 
-	 * TODO: should be a simple check, returning true/false
-	 * TODO: ability to specify location of login (unambiguously)
-	 * TODO: specify location to redirect to, instead of accessing $_GET
-	 */
-	public function check_login($restrictedAccess) {
-		if($restrictedAccess) {
-			$myUri = $_SERVER['SCRIPT_NAME'];
-			$doNotRedirectArr = array('/login.php', '/admin/login.php', '/index.php', '/admin.php',
-				'/content', '/content/index.php'
-			);
-			$myUrlString="";
-			$myGetArr = $_GET;
-			if(is_array($myGetArr) && count($myGetArr) > 0) {
-				unset($myGetArr['PHPSESSID']);
-				unset($myGetArr[CS-CONTENT_SESSION_NAME]);
-				$myUrlString = string_from_array($myGetArr, NULL, 'url');
-			}
-			
-			//TODO: make the redirectHere variable dynamic--an argument, methinks.
-			
-			$redirectHere = '/login.php?destination='. $myUrlString;
-				
-			//Not exitting after conditional_header() is... bad, m'kay?
-			$this->conditional_header($redirectHere, TRUE);
-			exit;
-		}
-	}//end check_login()
-	//---------------------------------------------------------------------------------------------
 
 
-
-	//---------------------------------------------------------------------------------------------
+	//----------------------------------------------------------------------------
 	/**
 	 * Remove all data from the special template var "content" (or optionally another ver).
 	 * 
@@ -86,11 +49,11 @@ class GenericPage extends baseAbstract {
 	public function clear_content($section="content"){
 		$this->mainTemplate->addVar($section, "");
 	}//end clear_content()
-	//---------------------------------------------------------------------------------------------
+	//----------------------------------------------------------------------------
 
 
 
-	//---------------------------------------------------------------------------------------------
+	//----------------------------------------------------------------------------
 	/**
 	 * Change the content of a template to the given data.
 	 * 
@@ -102,11 +65,11 @@ class GenericPage extends baseAbstract {
 	public function change_content($htmlString,$section="content"){
 		$this->mainTemplate->addVar($section, $htmlString, false);
 	}//end change_content()
-	//---------------------------------------------------------------------------------------------
+	//----------------------------------------------------------------------------
 
 
 
-	//---------------------------------------------------------------------------------------------
+	//----------------------------------------------------------------------------
 	/**
 	 * Adds a template file (with the given handle) to be parsed.
 	 * 
@@ -115,22 +78,22 @@ class GenericPage extends baseAbstract {
 	public function add_template_file($handleName, $fileName){
 		$this->mainTemplate->add(new Template($fileName, $handleName), false);
 	}//end add_template_file()
-	//---------------------------------------------------------------------------------------------
+	//----------------------------------------------------------------------------
 
 
 
-	//---------------------------------------------------------------------------------------------
+	//----------------------------------------------------------------------------
 	/**
 	 * Adds a value for a template placeholder.
 	 */
 	public function add_template_var($varName, $varValue){
 		$this->mainTemplate->addVar($varName, $varValue, false);
 	}//end add_template_var();
-	//---------------------------------------------------------------------------------------------
+	//----------------------------------------------------------------------------
 
 
 
-	//---------------------------------------------------------------------------------------------
+	//----------------------------------------------------------------------------
 	/**
 	 * Processes all template vars & files, etc, to produce the final page.  NOTE: it is a wise idea
 	 * for most pages to have this called *last*.
@@ -156,19 +119,19 @@ class GenericPage extends baseAbstract {
 		return $out;
 		
 	}//end of render_page()
-	//---------------------------------------------------------------------------------------------
+	//----------------------------------------------------------------------------
 
 
 
-	//---------------------------------------------------------------------------------------------
+	//----------------------------------------------------------------------------
 	public function print_page($stripUndefVars=true) {
 		print $this->render_page($stripUndefVars);
 	}
-	//---------------------------------------------------------------------------------------------
+	//----------------------------------------------------------------------------
 	
 	
 	
-	//---------------------------------------------------------------------------------------------
+	//----------------------------------------------------------------------------
 	/**
 	 * Handles a message that was set into the session.
 	 */
@@ -204,11 +167,11 @@ class GenericPage extends baseAbstract {
 		
 		return $retval;
 	}//end of process_set_message()
-	//---------------------------------------------------------------------------------------------
+	//----------------------------------------------------------------------------
 	
 	
 	
-	//---------------------------------------------------------------------------------------------
+	//----------------------------------------------------------------------------
 	public function _process_single_session_message($type, array $data) {
 		$tmpl = new Template($this->mainTemplate->dir .'/system/message_box.tmpl');
 		$data['messageType'] = strtolower($type);
@@ -219,11 +182,11 @@ class GenericPage extends baseAbstract {
 
 		return $tmpl->render();
 	}
-	//---------------------------------------------------------------------------------------------
+	//----------------------------------------------------------------------------
 	
 	
 	
-	//---------------------------------------------------------------------------------------------
+	//----------------------------------------------------------------------------
 	/**
 	 * Creates an array in the session, used by the templating system as a way to
 	 * get messages generated by the code into the page, without having to add 
@@ -264,12 +227,12 @@ class GenericPage extends baseAbstract {
 		
 		$_SESSION['messages'][$type][] = $setThis;
 	} // end of set_message()
-	//---------------------------------------------------------------------------------------------
+	//----------------------------------------------------------------------------
 	
 	
 	
 	
-	//---------------------------------------------------------------------------------------------
+	//----------------------------------------------------------------------------
 	/**
 	 * Add a message to the queue.
 	 * 
@@ -282,11 +245,11 @@ class GenericPage extends baseAbstract {
 	public static function add_message($title, $message, $type=selfMSGTYPE_NOTICE, $linkUrl=null, $linkText="Link") {
 		self::set_message($title, $message, $linkUrl, $type, $linkText);
 	}// end of add_message()
-	//---------------------------------------------------------------------------------------------
+	//----------------------------------------------------------------------------
 	
 	
 	
-	//---------------------------------------------------------------------------------------------
+	//----------------------------------------------------------------------------
 	/**
 	 * 
 	 * @param array $array	Key=>value pairs for use with self::set_message()
@@ -325,22 +288,22 @@ class GenericPage extends baseAbstract {
 		
 		self::set_message($title, $message, $linkUrl, $type, $linkText);
 	}//end set_message_wrapper()
-	//---------------------------------------------------------------------------------------------
+	//----------------------------------------------------------------------------
 	
 	
 	
-	//---------------------------------------------------------------------------------------------
+	//----------------------------------------------------------------------------
 	/**
 	 * Performs redirection, provided it is allowed.
 	 */
 	function conditional_header($url, $exitAfter=TRUE,$isPermRedir=FALSE) {
 		cs_global::conditional_header($url, $exitAfter, $isPermRedir);
 	}//end conditional_header()
-	//---------------------------------------------------------------------------------------------
+	//----------------------------------------------------------------------------
 	
 	
 	
-	//---------------------------------------------------------------------------------------------
+	//----------------------------------------------------------------------------
 	/**
 	 * This setting is used by ContentSystem, and not directly by this class.
 	 * @param null $newSetting
@@ -352,30 +315,30 @@ class GenericPage extends baseAbstract {
 		}
 		return($this->allowInvalidUrls);
 	}//end allow_invalid_urls()
-	//---------------------------------------------------------------------------------------------
+	//----------------------------------------------------------------------------
 	
 	
 	
-	//-------------------------------------------------------------------------
+	//----------------------------------------------------------------------------
 	public function return_printed_page($stripUndefVars=true) {
 		return $this->render_page($stripUndefVars);
 	}//end return_printed_page()
-	//-------------------------------------------------------------------------
+	//----------------------------------------------------------------------------
 	
 	
 	
-	//-------------------------------------------------------------------------
+	//----------------------------------------------------------------------------
 	/**
 	 * Magic PHP method for retrieving the values of private/protected vars.
 	 */
 	public function __get($var) {
 		return(@$this->$var);
 	}//end __get()
-	//-------------------------------------------------------------------------
+	//----------------------------------------------------------------------------
 	
 	
 	
-	//-------------------------------------------------------------------------
+	//----------------------------------------------------------------------------
 	/**
 	 * Magic PHP method for changing the values of private/protected vars (or 
 	 * creating new ones).
@@ -385,6 +348,6 @@ class GenericPage extends baseAbstract {
 		//TODO: set some restrictions on internal vars...
 		$this->$var = $val;
 	}//end __set()
-	//-------------------------------------------------------------------------
+	//----------------------------------------------------------------------------
 
 }//end cs_genericPage{}
