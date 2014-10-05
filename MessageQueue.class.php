@@ -38,11 +38,7 @@ class MessageQueue extends baseAbstract {
     
 	//----------------------------------------------------------------------------
     public function hasFatalError() {
-        $retval = false;
-        if(count($this->_messages[Message::TYPE_FATAL])) {
-            $retval = true;
-        }
-        return $retval;
+        return count($this->_messages[Message::TYPE_FATAL]);
     }
 	//----------------------------------------------------------------------------
     
@@ -87,7 +83,7 @@ class MessageQueue extends baseAbstract {
 	
 	//----------------------------------------------------------------------------
 	public function add(Message $msg) {
-	    $this->_messages[$msg->type] = $msg;
+	    $this->_messages[$msg->type][] = $msg;
 	}
 	//----------------------------------------------------------------------------
 	
@@ -96,13 +92,20 @@ class MessageQueue extends baseAbstract {
 	//----------------------------------------------------------------------------
 	public function render(Template $tmpl) {
 	    $output = "";
+//cs_global::debug_print($this->_messages,1);
 	    
-	    foreach($this->_messages as $type => $subData) {
+	    foreach($this->_messages as $subData) {
+//cs_global::debug_print($subData,1);
 	        foreach($subData as $num => $obj) {
+//cs_global::debug_print($num,1);
+//cs_global::debug_print($obj,1);
+//exit;
 	            $x = clone $tmpl;
 	            $output .= $obj->render($x);
 	        }
 	    }
+//cs_global::debug_print(__METHOD__ .": output: ". cs_global::debug_print($output,0),1);
+//exit;
 	    $this->_messages = array();
 	    $this->init();
 	    

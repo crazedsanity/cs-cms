@@ -15,17 +15,6 @@ class DatabaseTest extends TestDbAbstract {
 	
 	
 	//-------------------------------------------------------------------------
-	/**
-	 * @covers Database::beginTrans
-	 * @covers Database::get_transaction_status
-	 * @covers Database::farray_fieldnames
-	 * @covers Database::get_dbType
-	 * @covers Database::run_query
-	 * @covers Database::run_insert
-	 * @covers Database::farray_nvp
-	 * @covers Database::commitTrans
-	 * @covers Database::farray
-	 */
 	public function test_basics() {
 		$this->assertTrue(is_object($this->dbObj), "No database objects to test");
 		

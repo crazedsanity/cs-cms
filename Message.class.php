@@ -29,6 +29,15 @@ class Message {
 
 
 	//----------------------------------------------------------------------------
+	/**
+	 * 
+	 * @param type $title
+	 * @param type $message
+	 * @param type $type
+	 * @param type $linkUrl
+	 * @param type $linkText
+	 * @throws \InvalidArgumentException
+	 */
     public function __construct($title, $message, $type=self::TYPE_NOTICE, $linkUrl=null, $linkText=null) {
         if(!is_null($title) && strlen($title) >2) {
             $this->title = $title;
@@ -89,6 +98,8 @@ class Message {
         $obj->addVar('type', $this->type);
         $obj->addVar('url', $this->url);
         $obj->addVar('linkText', $this->linkText);
+//cs_global::debug_print(__METHOD__ .": TEMPLATE::: ". cs_global::debug_print($obj,0),1);
+//exit;
         return $obj->render();
     }
 	//----------------------------------------------------------------------------
