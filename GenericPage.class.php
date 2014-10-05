@@ -18,12 +18,6 @@ class GenericPage extends baseAbstract {
 	
 	protected $_messages;
 	
-	
-	const MSGTYPE_NOTICE = "notice";
-	const MSGTYPE_STATUS = "status";
-	const MSGTYPE_ERROR = "error";
-	const MSGTYPE_FATAL = "fatal";
-	
 	//----------------------------------------------------------------------------
 	/**
 	 * The constructor.

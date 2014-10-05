@@ -26,7 +26,7 @@ class MessageQueue extends baseAbstract {
     
 	//----------------------------------------------------------------------------
     protected function init() {
-        foreach($this->types as $k) {
+        foreach(Message::$validTypes as $k) {
             if(!isset($this->_messages[$k]) || !is_array($this->_messages[$k])) {
                 $this->_messages[$k] = array();
             }
@@ -82,8 +82,7 @@ class MessageQueue extends baseAbstract {
         $this->save();
     }
 	//----------------------------------------------------------------------------
-	
-	
+
 	
 	
 	//----------------------------------------------------------------------------
