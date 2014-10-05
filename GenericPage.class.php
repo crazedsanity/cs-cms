@@ -3,6 +3,7 @@
 namespace crazedsanity;
 
 use crazedsanity\Template;
+//use crazedsanity\Message;
 
 class GenericPage extends baseAbstract {
 	public $mainTemplate;					//the default layout of the site
@@ -15,6 +16,8 @@ class GenericPage extends baseAbstract {
 	
 	protected $_hasFatalError = false;
 	
+	protected $_messages;
+	
 	
 	const MSGTYPE_NOTICE = "notice";
 	const MSGTYPE_STATUS = "status";
@@ -25,7 +28,7 @@ class GenericPage extends baseAbstract {
 	/**
 	 * The constructor.
 	 */
-	public function __construct(Template $mainTemplate=null) {
+	public function __construct(Template $mainTemplate=null, $loadMessages=true) {
 		parent::__construct();
 
 		if(is_object($mainTemplate)) {
@@ -34,6 +37,7 @@ class GenericPage extends baseAbstract {
 		else {
 			$this->mainTemplate = new Template(null, "main");
 		}
+		$this->_messages = new MessageQueue($loadMessages);
 	}//end initialize_locals()
 	//----------------------------------------------------------------------------
 	
