@@ -6,7 +6,8 @@ use crazedsanity\Template;
 //use crazedsanity\Message;
 
 class GenericPage extends baseAbstract {
-	public $mainTemplate;					//the default layout of the site
+	public $mainTemplate;					//the Template{} that sets the site's default layout
+	public $messageTemplate;				//Template{} to use for rendering messages
 	public $printOnFinish=true;
 	
 	protected $tmplDir;
@@ -14,9 +15,7 @@ class GenericPage extends baseAbstract {
 	
 	protected $allowInvalidUrls=NULL;
 	
-	protected $_hasFatalError = false;
-	
-	protected $_messages;
+	static $messages;
 	
 	//----------------------------------------------------------------------------
 	/**
@@ -31,7 +30,7 @@ class GenericPage extends baseAbstract {
 		else {
 			$this->mainTemplate = new Template(null, "main");
 		}
-		$this->_messages = new MessageQueue($loadMessages);
+		self::$messages = new MessageQueue($loadMessages);
 	}//end initialize_locals()
 	//----------------------------------------------------------------------------
 	
@@ -134,52 +133,12 @@ class GenericPage extends baseAbstract {
 	 * Handles a message that was set into the session.
 	 */
 	public function process_set_message() {
-		$retval = null;
-		if(isset($_SESSION['messages']) && is_array($_SESSION['messages'])) {
-			$retval = "";
-			if(isset($_SESSION['messages']['fatal']) && is_array($_SESSION['messages']['fatal']) && count($_SESSION['messages']['fatal']) > 0) {
-				$this->_hasFatalError = count($_SESSION['messages']['fatal']);
-			}
-			
-			$processOrder = array('fatal', 'error', 'status', 'notice');
-			
-			$lastType = null;
-			foreach($processOrder as $type) {
-				$lastType = $type;
-				if(isset($_SESSION['messages'][$type])) {
-					foreach($_SESSION['messages'][$type] as $k=>$v) {
-						$retval .= $this->_process_single_session_message($type, $v);
-					}
-					unset($_SESSION['messages'][$type]);
-				}
-			}
-			if(count($_SESSION['messages']) > 0) {
-				foreach($_SESSION['messages'] as $k=>$subData) {
-					foreach($subData as $n=>$msg) {
-						$retval .= $this->_process_single_session_message($lastType, $msg);
-					}
-					unset($_SESSION['messages'][$k]);
-				}
-			}
+		$tmpl = $this->messageTemplate;
+		if(is_null($this->messageTemplate) || !is_object($this->messageTemplate)) {
+			$tmpl = new Template($this->mainTemplate->dir .'/system/message.tmpl');
 		}
-		
-		return $retval;
+		return self::$messages->render($tmpl);
 	}//end of process_set_message()
-	//----------------------------------------------------------------------------
-	
-	
-	
-	//----------------------------------------------------------------------------
-	public function _process_single_session_message($type, array $data) {
-		$tmpl = new Template($this->mainTemplate->dir .'/system/message_box.tmpl');
-		$data['messageType'] = strtolower($type);
-		$data['type'] = $type;
-		foreach($data as $key => $value) {
-			$tmpl->addVar($key, $value);
-		}
-
-		return $tmpl->render();
-	}
 	//----------------------------------------------------------------------------
 	
 	
@@ -199,31 +158,7 @@ class GenericPage extends baseAbstract {
 	 * @param $linkText			(str,optional) text that the link wraps.
 	 */
 	public static function set_message($title=NULL, $message=NULL, $linkURL=NULL, $type=NULL, $linkText=NULL) {
-		if(is_null($type) || !strlen($type)) {
-			$type = 'notice';
-		}
-		
-		if(!array_key_exists('messages', $_SESSION)) {
-			$_SESSION['messages'] = array();
-		}
-		if(!array_key_exists($type, $_SESSION['messages'])) {
-			$_SESSION['messages'][$type] = array();
-		}
-		
-		$setThis = array(
-			"title"		=> $title,
-			"message"	=> $message,
-			"type"		=> $type,
-		);
-		
-		if(strlen($linkURL)) {
-			if(!strlen($linkText) || is_null($linkText)) {
-				$linkText = "Link";
-			}
-			$setThis['redirect'] = '<a href="'. $linkURL .'">'. $linkText .'</a>';
-		}
-		
-		$_SESSION['messages'][$type][] = $setThis;
+		self::$messages->add(new Message($title, $message, $type, $linkURL, $linkText));
 	} // end of set_message()
 	//----------------------------------------------------------------------------
 	
@@ -240,52 +175,9 @@ class GenericPage extends baseAbstract {
 	 * @param type $linkUrl
 	 * @param type $linkText
 	 */
-	public static function add_message($title, $message, $type=selfMSGTYPE_NOTICE, $linkUrl=null, $linkText="Link") {
-		self::set_message($title, $message, $linkUrl, $type, $linkText);
+	public static function add_message(Message $obj) {
+		self::$messages->add($obj);
 	}// end of add_message()
-	//----------------------------------------------------------------------------
-	
-	
-	
-	//----------------------------------------------------------------------------
-	/**
-	 * 
-	 * @param array $array	Key=>value pairs for use with self::set_message()
-	 */
-	public static function set_message_wrapper(array $array) {
-		$title = null;
-		$message = null;
-		$linkUrl = null;
-		$type = null;
-		$linkText = null;
-		
-		
-		foreach($array as $k=>$v) {
-			switch(strtolower($k)) {
-				case 'title':
-					$title = $v;
-					break;
-				
-				case 'message':
-					$message = $v;
-					break;
-				
-				case 'linkurl':
-					$linkUrl = $v;
-					break;
-				
-				case 'type':
-					$type = $v;
-					break;
-				
-				case 'linktext':
-					$linkText = $v;
-					break;
-			}
-		}
-		
-		self::set_message($title, $message, $linkUrl, $type, $linkText);
-	}//end set_message_wrapper()
 	//----------------------------------------------------------------------------
 	
 	

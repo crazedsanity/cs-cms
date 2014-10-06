@@ -11,6 +11,7 @@ class GenericPageTest extends PHPUnit_Framework_TestCase {
 
 	public function test_instantiation() {
 		$x = new GenericPage(new Template(dirname(__FILE__) .'/files/templates/main.tmpl'));
+		$x->messageTemplate = new Template(dirname(__FILE__) .'/files/templates/message.tmpl');
 		$this->assertTrue(is_object($x));
 		$this->assertTrue(is_object($x->mainTemplate));
 
@@ -23,6 +24,7 @@ class GenericPageTest extends PHPUnit_Framework_TestCase {
 
 	public function test_templateStuff() {
 		$x = new GenericPage(new Template(dirname(__FILE__) .'/files/templates/main.tmpl'));
+		$x->messageTemplate = new Template(dirname(__FILE__) .'/files/templates/message.tmpl');
 
 		$x->add_template_file('file1', dirname(__FILE__) .'/files/templates/file1.tmpl');
 
