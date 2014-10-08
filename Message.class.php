@@ -93,13 +93,9 @@ class Message {
 
 	//----------------------------------------------------------------------------
     public function render(Template $obj) {
-        $obj->addVar('title', $this->title);
-        $obj->addVar('message', $this->message);
-        $obj->addVar('type', $this->type);
-        $obj->addVar('url', $this->url);
-        $obj->addVar('linkText', $this->linkText);
-//cs_global::debug_print(__METHOD__ .": TEMPLATE::: ". cs_global::debug_print($obj,0),1);
-//exit;
+		foreach($this->getContents() as $k=>$v) {
+			$obj->addVar($k,$v);
+		}
         return $obj->render();
     }
 	//----------------------------------------------------------------------------
