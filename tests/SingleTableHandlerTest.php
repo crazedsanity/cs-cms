@@ -8,7 +8,7 @@ use crazedsanity\SingleTableHandler;
 use crazedsanity\Database;
 
 
-class SingleTableHandlerTest extends TestDbAbstract {
+class TestOfSingleTableHandler extends TestDbAbstract {
 	
 	
 	//-------------------------------------------------------------------------

@@ -2,7 +2,7 @@
 
 use crazedsanity\RegisterUser;
 
-class RegisterUserTest extends TestDbAbstract {
+class TestOfRegisterUser extends TestDbAbstract {
 	
 	//--------------------------------------------------------------------------
 	function __construct() {

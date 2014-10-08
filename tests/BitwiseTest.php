@@ -1,6 +1,6 @@
 <?php
 
-class BitwiseTest extends PHPUnit_Framework_TestCase {
+class TestOfBitwise extends PHPUnit_Framework_TestCase {
 	
 	public function test_isValid() {
 		$x = new crazedsanity\Bitwise;

@@ -5,7 +5,7 @@ use crazedsanity\cs_global;
 use crazedsanity\Session;
 use crazedsanity\SessionDB;
 
-class AuthUserTest extends \TestDbAbstract {
+class TestOfAuthUser extends \TestDbAbstract {
 	
 	public $userInfo = array(
 		'username'	=> 'test',

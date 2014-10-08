@@ -4,7 +4,7 @@ use crazedsanity\SiteConfig;
 use crazedsanity\FileSystem;
 use crazedsanity\cs_global;
 
-class SiteConfigTest extends PHPUnit_Framework_TestCase {
+class TestOfSiteConfig extends PHPUnit_Framework_TestCase {
 	
 	/**
 	 * To ensure SimpleXML-based queries work (for removing dependencies on 

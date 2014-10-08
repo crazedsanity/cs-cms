@@ -3,7 +3,7 @@
 use crazedsanity\SessionDB;
 use \TestDbAbstract;
 
-class testOfCSSessionDB extends TestDbAbstract {
+class TestOfCSSessionDB extends TestDbAbstract {
 	
 	public function __construct() {
 		parent::__construct();

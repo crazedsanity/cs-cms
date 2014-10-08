@@ -3,7 +3,7 @@
 use crazedsanity\Bitwise;
 use crazedsanity\Permission;
 
-class testOfCSPermission extends TestDbAbstract {
+class TestOfCSPermission extends TestDbAbstract {
 	public function test_bitwise() {
 		$p = new _perm(); //this ensures the class file has been included
 		

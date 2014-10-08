@@ -4,7 +4,7 @@ use crazedsanity\Upgrade;
 use crazedsanity\Lockfile;
 
 
-class UpgradeTest extends TestDbAbstract {
+class TestOfUpgrade extends TestDbAbstract {
 	
 	public $fileToVersion = array();
 	

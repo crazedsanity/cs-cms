@@ -3,7 +3,7 @@
 use crazedsanity\Logger;
 use crazedsanity\cs_global;
 
-class LoggerTest extends TestDbAbstract {
+class TestOfLogger extends TestDbAbstract {
 	
 	
 	//--------------------------------------------------------------------------

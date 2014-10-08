@@ -5,7 +5,7 @@ use crazedsanity\Message;
 use crazedsanity\MessageQueue;
 use crazedsanity\cs_global;
 
-class MessageQueueTest extends PHPUnit_Framework_TestCase {
+class TestOfMessageAndMessageQueue extends PHPUnit_Framework_TestCase {
     
     public function test_create() {
         $que = new MessageQueue();
@@ -53,6 +53,6 @@ class MessageQueueTest extends PHPUnit_Framework_TestCase {
 			}
 			$this->assertEquals($expectedNum, count($_SESSION[MessageQueue::SESSIONKEY][$type]), "too many messages of type '". $type ."'");
 		}
-		$this->assertEquals($theMessage, $_SESSION[MessageQueue::SESSIONKEY][$theMessage->type][0], "Saved message was mangled... ". cs_global::debug_print($_SESSION[MessageQueue::SESSIONKEY][$theMessage->type][0],0));
+		$this->assertEquals($theMessage, $_SESSION[MessageQueue::SESSIONKEY][$theMessage->type][0], "Saved message was mangled...");
 	}
 }

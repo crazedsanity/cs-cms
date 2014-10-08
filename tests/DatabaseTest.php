@@ -4,7 +4,7 @@
  */
 
 
-class DatabaseTest extends TestDbAbstract {
+class TestOfDatabase extends TestDbAbstract {
 	
 	
 	//-------------------------------------------------------------------------

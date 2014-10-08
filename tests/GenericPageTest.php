@@ -4,7 +4,7 @@ use crazedsanity\Template;
 use crazedsanity\GenericPage;
 use crazedsanity\cs_global;
 
-class GenericPageTest extends PHPUnit_Framework_TestCase {
+class TestOfGenericPage extends PHPUnit_Framework_TestCase {
 
 	public function test_instantiation() {
 		$x = new GenericPage(new Template(dirname(__FILE__) .'/files/templates/main.tmpl'));
@@ -44,5 +44,10 @@ class GenericPageTest extends PHPUnit_Framework_TestCase {
 
 		$this->assertEquals($x->allow_invalid_urls(), $x->allow_invalid_urls(null));
 		$this->assertEquals(false, $x->allow_invalid_urls(), "unexpected initial setting");
+	}
+	
+	
+	public function test_addMessage() {
+		$x = new GenericPage();
 	}
 }

@@ -2,7 +2,7 @@
 
 use crazedsanity\IdObfuscator;
 
-class IdObfuscatorTest extends TestDbAbstract {
+class TestOfIdObfuscator extends TestDbAbstract {
 	
 	
 	public function __construct() {
