@@ -23,19 +23,16 @@ class AutoLoader {
 			elseif (preg_match('~[Aa]bstract\.class~', $file->getFilename())) {
 				//cs_version.abstract.class.php becomes "cs_versionAbstract"
 				$className = preg_replace('~.abstract.class.php~i', '', $file->getFilename()) . "Abstract";
-//crazedsanity\cs_global::debug_print("\t". __METHOD__ .": (". $file->getFilename() .") changed to '". $className ."'",1);
 				AutoLoader::registerClass($className, $file->getPathname());
 			}
 			elseif (preg_match('~\.abstract\.php~i', $file->getFilename())) {
 				//cs_version.abstract.class.php becomes "cs_versionAbstract"
 				$className = preg_replace('~.abstract\.php~', '', $file->getFilename()) . "Abstract";
-//crazedsanity\cs_global::debug_print("\t". __METHOD__ .": (". $file->getFilename() .") changed to '". $className ."'",1);
 				AutoLoader::registerClass($className, $file->getPathname());
 			}
 			elseif((bool)preg_match('~\.interface\.php~', $file->getFilename())) {
 				// Stores "iTemplate.interface.php"
 				$className = preg_replace('~\.interface\.php~i', '', $file->getFilename());
-//crazedsanity\cs_global::debug_print("\t". __METHOD__ .": (". $file->getFilename() .") changed to '". $className ."'",1);
 				AutoLoader::registerClass($className, $file->getPathname());
 			}
 			elseif (substr($file->getFilename(), -10) === '.class.php') {
