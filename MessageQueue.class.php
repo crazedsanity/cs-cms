@@ -105,4 +105,24 @@ class MessageQueue extends baseAbstract {
 	    return $output;
 	}
 	//----------------------------------------------------------------------------
+	
+	
+	
+	//----------------------------------------------------------------------------
+	public function getCount($byType=null) {
+		$retval = 0;
+		if(is_null($byType)) {
+			foreach($this->_messages as $data) {
+				$retval += count($data);
+			}
+		}
+		elseif(!is_null($byType) && in_array($byType, Message::$validTypes)) {
+			$retval = count($this->_messages[$byType]);
+		}
+		else {
+			throw new \InvalidArgumentException("invalid type (". $byType .")");
+		}
+		return $retval;
+	}
+	//----------------------------------------------------------------------------
 }

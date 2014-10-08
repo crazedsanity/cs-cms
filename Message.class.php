@@ -10,6 +10,8 @@ class Message {
     const TYPE_STATUS = "status";
     const TYPE_ERROR  = "error";
     const TYPE_FATAL  = "fatal";
+	
+	const DEFAULT_TYPE = self::TYPE_NOTICE;
     
     
     // this is a sort of hack to make it easier to know the list of valid types.
@@ -38,7 +40,7 @@ class Message {
 	 * @param type $linkText
 	 * @throws \InvalidArgumentException
 	 */
-    public function __construct($title, $message, $type=self::TYPE_NOTICE, $linkUrl=null, $linkText=null) {
+    public function __construct($title, $message, $type=self::DEFAULT_TYPE, $linkUrl=null, $linkText=null) {
         if(!is_null($title) && strlen($title) >2) {
             $this->title = $title;
         }

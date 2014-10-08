@@ -18,6 +18,15 @@ class TestOfMessageAndMessageQueue extends PHPUnit_Framework_TestCase {
 		$this->assertEquals(true, (bool)$que->hasFatalError(), "fatal error not detected");
 		$this->assertEquals(1, $que->hasFatalError(), "invalid number of fatal messages");
 		
+		
+		
+		$this->assertEquals(1, $que->getCount(Message::TYPE_ERROR), "no error message found");
+		$this->assertEquals(1, $que->getCount(Message::TYPE_FATAL), "no fatal message found");
+		$this->assertEquals(1, $que->getCount(Message::TYPE_NOTICE), "could not find the default message (added without specifying type)");
+		$this->assertEquals($que->getCount(Message::TYPE_NOTICE), $que->getCount(Message::DEFAULT_TYPE), "unexpected default type (". Message::DEFAULT_TYPE .")");
+		$this->assertEquals(3, $que->getCount(null), "not all messages are in the queue...?");
+		
+		
 		$out = $que->render(new Template(dirname(__FILE__) .'/files/templates/message.tmpl'));
 		
 		$this->assertTrue(strlen($out) > 0, "rendered message is blank");
@@ -27,6 +36,8 @@ class TestOfMessageAndMessageQueue extends PHPUnit_Framework_TestCase {
 		$this->assertEquals(3, preg_match_all('~TYPE: ~', $out), "could not find all types");
 		$this->assertEquals(3, preg_match_all('~LINKTEXT: ~', $out), "could not find all linkText fields");
 		$this->assertEquals(3, preg_match_all('~URL: ~', $out), "could not find all url fields");
+		
+		$this->assertEquals(0, $que->getCount(null), "message queue wasn't cleaned after render");
     }
 	
 	

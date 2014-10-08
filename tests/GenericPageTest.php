@@ -3,6 +3,7 @@
 use crazedsanity\Template;
 use crazedsanity\GenericPage;
 use crazedsanity\cs_global;
+use crazedsanity\Message;
 
 class TestOfGenericPage extends PHPUnit_Framework_TestCase {
 
@@ -49,5 +50,11 @@ class TestOfGenericPage extends PHPUnit_Framework_TestCase {
 	
 	public function test_addMessage() {
 		$x = new GenericPage();
+		
+		$theMessage = new Message('Uh-Oh', 'message contents go here', Message::TYPE_ERROR);
+		GenericPage::add_message($theMessage);
+		
+		$this->assertEquals(1, GenericPage::$messages->getCount(Message::TYPE_ERROR), "message did not get into the queue!");
+		$this->assertEquals($x::$messages->getCount(Message::TYPE_ERROR), "could not find message through \$obj::messages reference");
 	}
 }
