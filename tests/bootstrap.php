@@ -42,5 +42,6 @@ if(!defined('UNITTEST__LOCKFILE')) { // fixes issues with running in a separate 
 }
 
 AutoLoader::registerDirectory(dirname(__FILE__) .'/../');
+AutoLoader::registerDirectory(dirname(__FILE__) .'/../interfaces/');
 
 

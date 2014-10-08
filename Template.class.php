@@ -7,7 +7,7 @@ namespace crazedsanity;
  *
  * @author danf
  */
-class Template {
+class Template implements iTemplate {
 	private $_contents;
 	private $_name;
 	private $_templates = array();

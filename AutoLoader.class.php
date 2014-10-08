@@ -14,18 +14,32 @@ class AutoLoader {
 	public static function registerDirectory($dirName) {
 		$di = new DirectoryIterator($dirName);
 		foreach ($di as $file) {
+//crazedsanity\cs_global::debug_print("\t". __METHOD__ .": processing $dirName (". $file->getFilename() .")... ",1);
 			 
 			if ($file->isDir() && !$file->isLink() && !$file->isDot()) {
 				// recurse into directories other than a few special ones
 				self::registerDirectory($file->getPathname());
 			} 
-			elseif (preg_match('/[Aa]bstract\.class/', $file->getFilename()) && substr($file->getFilename(), -19) === '.abstract.class.php') {
+			elseif (preg_match('~[Aa]bstract\.class~', $file->getFilename())) {
 				//cs_version.abstract.class.php becomes "cs_versionAbstract"
-				$className = preg_replace('/.abstract.class.php/', '', $file->getFilename()) . "Abstract";
+				$className = preg_replace('~.abstract.class.php~i', '', $file->getFilename()) . "Abstract";
+//crazedsanity\cs_global::debug_print("\t". __METHOD__ .": (". $file->getFilename() .") changed to '". $className ."'",1);
+				AutoLoader::registerClass($className, $file->getPathname());
+			}
+			elseif (preg_match('~\.abstract\.php~i', $file->getFilename())) {
+				//cs_version.abstract.class.php becomes "cs_versionAbstract"
+				$className = preg_replace('~.abstract\.php~', '', $file->getFilename()) . "Abstract";
+//crazedsanity\cs_global::debug_print("\t". __METHOD__ .": (". $file->getFilename() .") changed to '". $className ."'",1);
+				AutoLoader::registerClass($className, $file->getPathname());
+			}
+			elseif((bool)preg_match('~\.interface\.php~', $file->getFilename())) {
+				// Stores "iTemplate.interface.php"
+				$className = preg_replace('~\.interface\.php~i', '', $file->getFilename());
+//crazedsanity\cs_global::debug_print("\t". __METHOD__ .": (". $file->getFilename() .") changed to '". $className ."'",1);
 				AutoLoader::registerClass($className, $file->getPathname());
 			}
 			elseif (substr($file->getFilename(), -10) === '.class.php') {
-				$className = preg_replace('/.class.php/', '', $file->getFilename());#substr($file->getFilename(), 0, -10);
+				$className = preg_replace('~.class.php~', '', $file->getFilename());#substr($file->getFilename(), 0, -10);
 				AutoLoader::registerClass($className, $file->getPathname());
 			}
 			elseif (substr($file->getFilename(), -4) === '.php') {

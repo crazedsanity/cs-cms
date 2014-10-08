@@ -1,6 +1,5 @@
 <?php
 
-require_once('PHPUnit/Autoload.php');
 
 use crazedsanity\cs_global;
 

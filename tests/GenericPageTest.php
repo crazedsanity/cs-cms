@@ -4,9 +4,6 @@ use crazedsanity\Template;
 use crazedsanity\GenericPage;
 use crazedsanity\cs_global;
 
-//This is only for Cloud9; it works on my home machine...??? 
-require_once(dirname(__FILE__) .'/../GenericPage.class.php');
-
 class GenericPageTest extends PHPUnit_Framework_TestCase {
 
 	public function test_instantiation() {
