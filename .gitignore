@@ -1,0 +1,7 @@
+/nbproject/
+/.idea/
+/*.lock
+/tests/files/rw/*
+/vendor
+/.c9
+/_test
