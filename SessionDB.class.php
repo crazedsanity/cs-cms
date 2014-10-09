@@ -76,7 +76,7 @@ class SessionDB extends Session {
 			}
 			else {
 				$id = session_id();
-				$this->exception_handler(__METHOD__ .": failed to set session save handler, session_id=(". $id ."), result=(". strip_tags(cs_global::debug_var_dump($setRes,0)) .')', true);
+				$this->exception_handler(__METHOD__ .": failed to set session save handler, session_id=(". $id ."), result=(". strip_tags(ToolBox::debug_var_dump($setRes,0)) .')', true);
 			}
 		}
 		
@@ -389,7 +389,7 @@ class SessionDB extends Session {
 			}
 		}
 		else {
-			$this->exception_handler(__METHOD__ .": invalid sid (". $sid ."), DATA::: ". cs_global::debug_print($data,0));
+			$this->exception_handler(__METHOD__ .": invalid sid (". $sid ."), DATA::: ". ToolBox::debug_print($data,0));
 		}
 		
 		return(true);
@@ -596,7 +596,7 @@ class SessionDB extends Session {
 				if(isset($castFields[$k])) {
 					$k2 = $k .'::'. $castFields[$k];
 				}
-				$retval = cs_global::create_list($retval, $k .'=:'. $k2, ', ');
+				$retval = ToolBox::create_list($retval, $k .'=:'. $k2, ', ');
 			}
 			$retval = " ". $retval;
 		}
@@ -617,14 +617,14 @@ class SessionDB extends Session {
 			$fields = "";
 			$values = "";
 			foreach($data as $k=>$v) {
-				$fields = cs_global::create_list($fields, $k, ", ");
-				$values = cs_global::create_list($values, ':'. $k, ", ");
+				$fields = ToolBox::create_list($fields, $k, ", ");
+				$values = ToolBox::create_list($values, ':'. $k, ", ");
 			}
 			if(strlen($fields) && strlen($values)) {
 				$retval = ' ('. $fields .') VALUES ('. $values .')';
 			}
 			else {
-				throw new exception(__METHOD__ .": no fields (". $fields .") or values (". $values .") created... ". cs_global::debug_print($data,0));
+				throw new exception(__METHOD__ .": no fields (". $fields .") or values (". $values .") created... ". ToolBox::debug_print($data,0));
 			}
 		}
 		else {

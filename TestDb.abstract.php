@@ -1,7 +1,7 @@
 <?php
 
 
-use crazedsanity\cs_global;
+use crazedsanity\ToolBox;
 
 //TODO: make this work for more than just PostgreSQL.
 abstract class TestDbAbstract extends \PHPUnit_Framework_TestCase {
@@ -69,7 +69,7 @@ abstract class TestDbAbstract extends \PHPUnit_Framework_TestCase {
 			$retval = true;
 		}
 		else {
-			cs_global::debug_print(__METHOD__ .": lockfile missing (". $this->lock->get_lockfile() .") while attempting to run test '". $this->getLabel() ."'");
+			ToolBox::debug_print(__METHOD__ .": lockfile missing (". $this->lock->get_lockfile() .") while attempting to run test '". $this->getLabel() ."'");
 		}
 		
 		return($retval);

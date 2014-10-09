@@ -3,7 +3,7 @@
 use crazedsanity\Template;
 use crazedsanity\Message;
 use crazedsanity\MessageQueue;
-use crazedsanity\cs_global;
+use crazedsanity\ToolBox;
 
 class TestOfMessageAndMessageQueue extends PHPUnit_Framework_TestCase {
     
@@ -31,7 +31,7 @@ class TestOfMessageAndMessageQueue extends PHPUnit_Framework_TestCase {
 		
 		$this->assertTrue(strlen($out) > 0, "rendered message is blank");
 		
-		$this->assertEquals(3, preg_match_all('~TITLE: ~', $out), "could not find all titles... ". cs_global::debug_print($out,0));
+		$this->assertEquals(3, preg_match_all('~TITLE: ~', $out), "could not find all titles... ". ToolBox::debug_print($out,0));
 		$this->assertEquals(3, preg_match_all('~MESSAGE: ~', $out), "could not find all message bodies");
 		$this->assertEquals(3, preg_match_all('~TYPE: ~', $out), "could not find all types");
 		$this->assertEquals(3, preg_match_all('~LINKTEXT: ~', $out), "could not find all linkText fields");

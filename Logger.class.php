@@ -176,7 +176,7 @@ class Logger extends baseAbstract {
 				$this->logClassCache = array();
 			}
 			else {
-				throw new exception(__METHOD__ .": unknown data returned: ". cs_global::debug_var_dump($data,0));
+				throw new exception(__METHOD__ .": unknown data returned: ". ToolBox::debug_var_dump($data,0));
 			}
 		}
 		catch(exception $e) {
@@ -197,7 +197,7 @@ class Logger extends baseAbstract {
 				$this->attributeCache = array();
 			}
 			else {
-				throw new exception(__METHOD__ .": unknown data returned: ". cs_global::debug_var_dump($data,0));
+				throw new exception(__METHOD__ .": unknown data returned: ". ToolBox::debug_var_dump($data,0));
 			}
 		}
 		catch(exception $e) {
@@ -257,7 +257,7 @@ class Logger extends baseAbstract {
 				$retval = $data['event_id'];
 			}
 			else {
-				throw new exception("invalid data returned::: ". cs_global::debug_var_dump($data,0));
+				throw new exception("invalid data returned::: ". ToolBox::debug_var_dump($data,0));
 			}
 		}
 		catch(exception $e) {
@@ -315,7 +315,7 @@ class Logger extends baseAbstract {
 			
 			//okay, setup an array of all the data we need.
 			$params = array (
-				'eventId'	=> cs_global::cleanString($logEventId, 'numeric'),
+				'eventId'	=> ToolBox::cleanString($logEventId, 'numeric'),
 				'uid'			=> $myUid,
 				'affectedUid'	=> $uid,
 				'details'		=> $details
@@ -337,7 +337,7 @@ class Logger extends baseAbstract {
 					}
 				}
 				else {
-					throw new exception(__METHOD__ .": failed to insert id or invalid return (". cs_global::debug_var_dump($newId,0) .")");
+					throw new exception(__METHOD__ .": failed to insert id or invalid return (". ToolBox::debug_var_dump($newId,0) .")");
 				}
 			}
 			catch(exception $e) {
@@ -411,7 +411,7 @@ class Logger extends baseAbstract {
 					$retval = $newId;
 				}
 				else {
-					throw new exception(__METHOD__ .": unable to insert id or bad return::: ". cs_global::debug_var_dump($newId,0));
+					throw new exception(__METHOD__ .": unable to insert id or bad return::: ". ToolBox::debug_var_dump($newId,0));
 				}
 			}
 			catch(exception $e) {
@@ -480,7 +480,7 @@ class Logger extends baseAbstract {
 			}
 			else {
 				throw new exception(__METHOD__ .": invalid data returned for " .
-						"category::: ". cs_global::debug_var_dump($newId,0));
+						"category::: ". ToolBox::debug_var_dump($newId,0));
 			}
 		}
 		catch(exception $e) {
@@ -512,7 +512,7 @@ class Logger extends baseAbstract {
 			}
 			else {
 				throw new exception(__METHOD__ .": failed to insert class or invalid " .
-						"id::: ". cs_global::debug_var_dump($newId,0));
+						"id::: ". ToolBox::debug_var_dump($newId,0));
 			}
 		}
 		catch(exception $e) {
@@ -543,7 +543,7 @@ class Logger extends baseAbstract {
 				}
 				else {
 					throw new exception(__METHOD__ .": failed to retrieve class " .
-							"name, or invalid return data::: ". cs_global::debug_print($data,0));
+							"name, or invalid return data::: ". ToolBox::debug_print($data,0));
 				}
 			}
 			catch(exception $e) {
@@ -578,7 +578,7 @@ class Logger extends baseAbstract {
 				}
 				else {
 					throw new exception(__METHOD__ .": failed to retrieve " .
-							"category name::: ". cs_global::debug_var_dump($data,0));
+							"category name::: ". ToolBox::debug_var_dump($data,0));
 				}
 			}
 			catch(exception $e) {
@@ -801,7 +801,7 @@ $this->_debug = $sql;
 				$retval = $this->db->farray_fieldnames();
 			}
 		} catch (Exception $ex) {
-			throw new ErrorException(__METHOD__ .": failed to retrieve logs, details::: ". $ex->getMessage() . "\n\nSQL::: ". $sql ."\n\nPARAMS::: ". cs_global::debug_print($params));
+			throw new ErrorException(__METHOD__ .": failed to retrieve logs, details::: ". $ex->getMessage() . "\n\nSQL::: ". $sql ."\n\nPARAMS::: ". ToolBox::debug_print($params));
 		}
 		
 		return $retval;
@@ -886,7 +886,7 @@ $this->_debug = $sql;
 				$retval = $data['count'];
 			}
 		} catch (Exception $ex) {
-			throw new ErrorException(__METHOD__ .": failed to retrieve logs, details::: ". $ex->getMessage() . "\n\nSQL::: ". $sql ."\n\nPARAMS::: ". cs_global::debug_print($params));
+			throw new ErrorException(__METHOD__ .": failed to retrieve logs, details::: ". $ex->getMessage() . "\n\nSQL::: ". $sql ."\n\nPARAMS::: ". ToolBox::debug_print($params));
 		}
 		
 		return $retval;

@@ -5,7 +5,7 @@
 
 namespace crazedsanity;
 
-use \crazedsanity\cs_global;
+use \crazedsanity\ToolBox;
 
 class AuthToken extends \crazedsanity\baseAbstract {
 	
@@ -248,8 +248,8 @@ class AuthToken extends \crazedsanity\baseAbstract {
 			$fields = "";
 			$values = "";
 			foreach($insertData as $k=>$v) {
-				$fields = \crazedsanity\cs_global::create_list($fields, $k);
-				$values = \crazedsanity\cs_global::create_list($values, ':'. $k);
+				$fields = \crazedsanity\ToolBox::create_list($fields, $k);
+				$values = \crazedsanity\ToolBox::create_list($values, ':'. $k);
 			}
 			
 			if(!is_null($lifetime) && strlen($lifetime) > 0) {
@@ -452,7 +452,7 @@ class AuthToken extends \crazedsanity\baseAbstract {
 		if(count($params) > 0) {
 			$criteria = "";
 			foreach($params as $field=>$val) {
-				$criteria = cs_global::create_list($criteria, $field .'=:'. $field, " AND ");
+				$criteria = ToolBox::create_list($criteria, $field .'=:'. $field, " AND ");
 			}
 			$sql .= " WHERE ". $criteria;
 		}

@@ -1,7 +1,7 @@
 <?php
 
 namespace crazedsanity;
-use crazedsanity\cs_global;
+use crazedsanity\ToolBox;
 
 function debug_backtrace($printItForMe=NULL,$removeHR=NULL) {
 	if(is_null($printItForMe)) {
@@ -43,7 +43,7 @@ function debug_backtrace($printItForMe=NULL,$removeHR=NULL) {
 					
 					$args = '';
 					foreach($arr['args'] as $argData) {
-						$args = cs_global::create_list($args, cs_global::truncate_string(cs_global::debug_print($argData, 0, 1, false), 600), ', ');
+						$args = ToolBox::create_list($args, ToolBox::truncate_string(ToolBox::debug_print($argData, 0, 1, false), 600), ', ');
 					}
 					
 					$fileDebug = "";
@@ -58,7 +58,7 @@ function debug_backtrace($printItForMe=NULL,$removeHR=NULL) {
 			array_reverse($tempArr);
 			$myData = null;
 			foreach($tempArr as $num=>$func) {
-				$myData = cs_global::create_list($myData, "#". $i ." ". $func, "\n");
+				$myData = ToolBox::create_list($myData, "#". $i ." ". $func, "\n");
 				$i++;
 			}
 		}
@@ -68,7 +68,7 @@ function debug_backtrace($printItForMe=NULL,$removeHR=NULL) {
 		}
 //	}
 	
-	$backTraceData = cs_global::debug_print($myData, $printItForMe, $removeHR);
+	$backTraceData = ToolBox::debug_print($myData, $printItForMe, $removeHR);
 	return($backTraceData);
 }//end cs_debug_backtrace()
 

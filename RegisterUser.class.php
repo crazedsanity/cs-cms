@@ -5,7 +5,7 @@ namespace crazedsanity;
 use crazedsanity\baseAbstract;
 use crazedsanity\Database;
 use crazedsanity\Logger;
-use crazedsanity\cs_global;
+use crazedsanity\ToolBox;
 
 class RegisterUser extends baseAbstract {
 	
@@ -36,7 +36,7 @@ class RegisterUser extends baseAbstract {
 				$retval = true;
 			}
 			$this->logger->log_by_class(__METHOD__ .": username=[". $username ."], result=(". 
-					cs_global::interpret_bool($retval, array(0,1)) .")", 'precheck');
+					ToolBox::interpret_bool($retval, array(0,1)) .")", 'precheck');
 		}
 		catch(Exception $e) {
 			$details = __METHOD__ .": determine username availability, DETAILS::: ". $e->getMessage();
@@ -79,7 +79,7 @@ class RegisterUser extends baseAbstract {
 						$passFailText = "ok";
 					}
 					else {
-						$retval['info'] = cs_global::create_list($retval['info'], $text, " and ");
+						$retval['info'] = ToolBox::create_list($retval['info'], $text, " and ");
 					}
 				}
 				if($passes == count($regexList)) {
@@ -94,7 +94,7 @@ class RegisterUser extends baseAbstract {
 			}
 		}
 		$this->logger->log_by_class(__METHOD__ .": result=(". 
-				cs_global::interpret_bool($retval['result'], array(0,1)) ."), "
+				ToolBox::interpret_bool($retval['result'], array(0,1)) ."), "
 						."passcheck=(". $retval['passcheck'] .")", 'precheck');
 		
 		return($retval);
@@ -107,7 +107,7 @@ class RegisterUser extends baseAbstract {
 	public function check_email_validity($emailAddr) {
 		$retval = false;
 		if(strlen($emailAddr)) {
-			$cleaned = cs_global::cleanString($emailAddr, 'email');
+			$cleaned = ToolBox::cleanString($emailAddr, 'email');
 			//the length assumes an email with the smallest form being 'jd@xy.com'
 			$emailRegex = '/^[A-Z0-9\._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i';
 			if($emailAddr == $cleaned && preg_match($emailRegex, $emailAddr)) {
@@ -212,7 +212,7 @@ class RegisterUser extends baseAbstract {
 		$result = $this->send_single_email($to, $subj, $body);
 		$this->debug[__METHOD__] = $result;
 		
-		$this->logger->log_by_class(cs_global::debug_print($this->debug,0), 'debug');
+		$this->logger->log_by_class(ToolBox::debug_print($this->debug,0), 'debug');
 		
 		return($result);
 	}//end send_activation_email()

@@ -187,7 +187,7 @@ class GenericPage extends baseAbstract {
 	 * Performs redirection, provided it is allowed.
 	 */
 	function conditional_header($url, $exitAfter=TRUE,$isPermRedir=FALSE) {
-		cs_global::conditional_header($url, $exitAfter, $isPermRedir);
+		ToolBox::conditional_header($url, $exitAfter, $isPermRedir);
 	}//end conditional_header()
 	//----------------------------------------------------------------------------
 	

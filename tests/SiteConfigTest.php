@@ -2,7 +2,7 @@
 
 use crazedsanity\SiteConfig;
 use crazedsanity\FileSystem;
-use crazedsanity\cs_global;
+use crazedsanity\ToolBox;
 
 class TestOfSiteConfig extends PHPUnit_Framework_TestCase {
 	
@@ -48,7 +48,7 @@ class TestOfSiteConfig extends PHPUnit_Framework_TestCase {
 		
 		$myFs = new FileSystem(dirname(__FILE__));
 		
-		$this->assertEquals(cs_global::resolve_path_with_dots(dirname($configFile) .'/..'), $GLOBALS['SITE_ROOT']);
+		$this->assertEquals(ToolBox::resolve_path_with_dots(dirname($configFile) .'/..'), $GLOBALS['SITE_ROOT']);
 		$this->assertEquals($GLOBALS['SITE_ROOT'], $GLOBALS['SITEROOT']);
 		
 		//BUG!!!! see https://github.com/crazedsanity/cs-webapplibs/issues/26 

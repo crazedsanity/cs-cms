@@ -2,7 +2,7 @@
 
 namespace crazedsanity;
 
-use crazedsanity\cs_global;
+use crazedsanity\ToolBox;
 use crazedsanity\SessionDB;
 use crazedsanity\Session;
 
@@ -377,7 +377,7 @@ class AuthUser extends SessionDB {
 			$updateSql = '';
 			$params = array();
 			foreach($data as $f=>$v) {
-				$updateSql = cs_global::create_list($updateSql, $f .'=:'. $f, ', ');
+				$updateSql = ToolBox::create_list($updateSql, $f .'=:'. $f, ', ');
 				$params[$f] = $v;
 			}
 			

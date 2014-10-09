@@ -5,7 +5,7 @@
 namespace crazedsanity;
 
 use crazedsanity\Database;
-use crazedsanity\cs_global;
+use crazedsanity\ToolBox;
 use \Exception;
 
 class SingleTableHandler extends baseAbstract {
@@ -76,8 +76,8 @@ class SingleTableHandler extends baseAbstract {
 			$sqlFields = "";
 			$sqlValues = "";
 			foreach($data as $field=>$value) {
-				$sqlFields = cs_global::create_list($sqlFields, $field, ", ");
-				$sqlValues = cs_global::create_list($sqlValues, ':'. $field, ", ");
+				$sqlFields = ToolBox::create_list($sqlFields, $field, ", ");
+				$sqlValues = ToolBox::create_list($sqlValues, ':'. $field, ", ");
 				$params[$field] = $value;
 			}
 			
@@ -203,7 +203,7 @@ class SingleTableHandler extends baseAbstract {
 		$filterStr = "";
 		if(is_array($filter) && count($filter) > 0) {
 			foreach($filter as $field=>$value) {
-				$filterStr = cs_global::create_list($filterStr, $field .'=:'. $field, ' AND ');
+				$filterStr = ToolBox::create_list($filterStr, $field .'=:'. $field, ' AND ');
 				$params[$field] = $value;
 			}
 			$filterStr = ' WHERE ' . $filterStr;
@@ -243,11 +243,11 @@ class SingleTableHandler extends baseAbstract {
 			$required = '';
 			$params = array();
 			foreach($searchFields as $f=>$v) {
-				$filterStr = cs_global::create_list($filterStr, '(lower('. $f .') LIKE :'. $f .' OR :'. $f .' IS NULL)', ' AND ');
+				$filterStr = ToolBox::create_list($filterStr, '(lower('. $f .') LIKE :'. $f .' OR :'. $f .' IS NULL)', ' AND ');
 				$params[$f] = '%'. $v .'%';
 			}
 			foreach($requiredFields as $f=>$v) {
-				$required = cs_global::create_list($required, $f .'=:'. $f, ', ');
+				$required = ToolBox::create_list($required, $f .'=:'. $f, ', ');
 				$params[$f] = $v;
 			}
 			
@@ -295,13 +295,13 @@ class SingleTableHandler extends baseAbstract {
 			$params = array();
 			
 			foreach($updates as $f=>$v) {
-				$updateString = cs_global::create_list($updateString, $f .'=:'. $f, ', ');
+				$updateString = ToolBox::create_list($updateString, $f .'=:'. $f, ', ');
 				$params[$f] = $v;
 			}
 			
 			if(is_array($recId)) {
 				foreach($recId as $f=>$v) {
-					$whereClause = cs_global::create_list($whereClause, $f .'=:'. $f, ' AND ');
+					$whereClause = ToolBox::create_list($whereClause, $f .'=:'. $f, ' AND ');
 					$params[$f] = $v;
 				}
 			}
@@ -320,7 +320,7 @@ class SingleTableHandler extends baseAbstract {
 			}
 		}
 		else {
-			throw new Exception(__METHOD__ .":: failed to update record (". $recId ."), invalid recordId (". $recId ."), or no data in array::: ". cs_global::debug_var_dump($updates,0));
+			throw new Exception(__METHOD__ .":: failed to update record (". $recId ."), invalid recordId (". $recId ."), or no data in array::: ". ToolBox::debug_var_dump($updates,0));
 		}
 		return($retval);
 	}//end update_record()

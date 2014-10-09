@@ -4,7 +4,7 @@
  * Created on Jan 25, 2009
  */
 
-use crazedsanity\cs_global;
+use crazedsanity\ToolBox;
 use crazedsanity\AuthToken;
 
 class AuthTokenTest extends \TestDbAbstract {
@@ -52,7 +52,7 @@ class AuthTokenTest extends \TestDbAbstract {
 
 		foreach ($expectedResult as $k => $v) {
 			$this->assertTrue(isset($actualResult[$k]));
-			$this->assertEquals($v, $actualResult[$k], "Value mismatch for '" . $k . "', ACTUAL::: " . cs_global::debug_print($actualResult, 0));
+			$this->assertEquals($v, $actualResult[$k], "Value mismatch for '" . $k . "', ACTUAL::: " . ToolBox::debug_print($actualResult, 0));
 		}
 	}
 	
@@ -344,7 +344,7 @@ class AuthTokenTest extends \TestDbAbstract {
 		
 		//NOTE: if this fails, the ordering has probably changed.
 		$this->assertEquals(0, $firstData[$firstKeys[1]]['uid']);
-		$this->assertEquals(0, $firstData[$firstKeys[1]]['token_type_id'], cs_global::debug_print($firstData));
+		$this->assertEquals(0, $firstData[$firstKeys[1]]['token_type_id'], ToolBox::debug_print($firstData));
 		
 		$secondData = $x->get_all(1);
 		$secondKeys = array_keys($secondData);

@@ -174,7 +174,7 @@ class Template implements iTemplate {
 		}
 
 		while (preg_match_all('~\{(\S{1,})\}~U', $out, $tags) && $numLoops < $this->recursionDepth) {
-			$out = cs_global::mini_parser($out, $rendered, '{', '}');
+			$out = ToolBox::mini_parser($out, $rendered, '{', '}');
 			$numLoops++;
 		}
 
@@ -217,13 +217,13 @@ class Template implements iTemplate {
 		// properly or not.
 		if(count(array_diff($beginArr, $endArr)) > 0) {
 			foreach($retArr['incomplete']['begin'] as $num=>$val) {
-				$nesting = cs_global::create_list($nesting, $val);
+				$nesting = ToolBox::create_list($nesting, $val);
 				$numIncomplete++;
 			}
 		}
 		if(count(array_diff($endArr, $beginArr)) > 0) {
 			foreach($retArr['incomplete']['end'] as $num=>$val) {
-				$nesting = cs_global::create_list($nesting, $val);
+				$nesting = ToolBox::create_list($nesting, $val);
 				$numIncomplete++;
 			}
 		}
@@ -301,7 +301,7 @@ class Template implements iTemplate {
 			$this->addVar($useTemplateVar, $final);
 		}
 		else {
-			throw new \InvalidArgumentException("block row '". $name ."' does not exist... ". cs_global::debug_print($this,0));
+			throw new \InvalidArgumentException("block row '". $name ."' does not exist... ". ToolBox::debug_print($this,0));
 		}
 	}
 	//---------------------------------------------------------------------------------------------

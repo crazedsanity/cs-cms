@@ -1,7 +1,7 @@
 <?php
 
 use crazedsanity\Logger;
-use crazedsanity\cs_global;
+use crazedsanity\ToolBox;
 
 class TestOfLogger extends TestDbAbstract {
 	
@@ -39,7 +39,7 @@ class TestOfLogger extends TestDbAbstract {
 		$myCache = $log->logClassCache;
 		
 		$this->assertTrue(is_array($myCache));
-		$this->assertEquals(count($myCache), 0, "Expected no categories, found some::: ". cs_global::debug_print($myCache,0));
+		$this->assertEquals(count($myCache), 0, "Expected no categories, found some::: ". ToolBox::debug_print($myCache,0));
 		
 		$categoryName = "TEST";
 		
@@ -127,7 +127,7 @@ class TestOfLogger extends TestDbAbstract {
 		
 		foreach(array_keys($createRecords) as $class) {
 			$theLogs = $x->get_logs($class);
-			$this->assertEquals(count($createRecords[$class]), count($theLogs), "Failed to find logs that match '". $class ."'... ". cs_global::debug_print($theLogs));
+			$this->assertEquals(count($createRecords[$class]), count($theLogs), "Failed to find logs that match '". $class ."'... ". ToolBox::debug_print($theLogs));
 		}
 		
 //		$data = $x->get_logs(null);

@@ -6,7 +6,7 @@
  */
 
 namespace crazedsanity;
-use crazedsanity\cs_global;
+use crazedsanity\ToolBox;
 
 class Database extends baseAbstract {
 	
@@ -90,7 +90,7 @@ class Database extends baseAbstract {
 				$this->dbType = $bits[1];
 			}
 			else {
-				cs_global::debug_print($bits,1);
+				ToolBox::debug_print($bits,1);
 				throw new \Exception(__METHOD__ .": unable to determine dbType");
 			}
 
@@ -250,7 +250,7 @@ class Database extends baseAbstract {
 			$this->sth = null;
 			$this->sth = $this->dbh->prepare($sql, $driverOptions);
 			if($this->sth === false) {
-				throw new \Exception(__METHOD__ .": STH is false... ". cs_global::debug_print($this->dbh->errorInfo(),0));
+				throw new \Exception(__METHOD__ .": STH is false... ". ToolBox::debug_print($this->dbh->errorInfo(),0));
 			}
 			// TODO: throw an exception on error (and possibly if there were no rows returned)
 			$this->sth->execute($params); 

@@ -2,7 +2,7 @@
 
 namespace crazedsanity;
 
-use crazedsanity\cs_global;
+use crazedsanity\ToolBox;
 
 class FileSystem extends baseAbstract {
 
@@ -26,7 +26,7 @@ class FileSystem extends baseAbstract {
 
 			parent::__construct(true);
 
-			$this->root = cs_global::resolve_path_with_dots($rootDir);
+			$this->root = ToolBox::resolve_path_with_dots($rootDir);
 
 			//set the CURRENT working directory... this should be a RELATIVE path to $this->root.
 			if(!is_null($cwd) AND (is_dir($rootDir .'/'. $cwd)) AND (!preg_match('~'. $cwd .'~', $this->root))) {
@@ -72,8 +72,8 @@ class FileSystem extends baseAbstract {
 			}
 			$myParts = explode('/', $myCwd);
 			array_pop($myParts);
-			$myCwd = cs_global::string_from_array($myParts, NULL, '/');
-			$realCwd = cs_global::create_list($this->root, $myCwd, '/');
+			$myCwd = ToolBox::string_from_array($myParts, NULL, '/');
+			$realCwd = ToolBox::create_list($this->root, $myCwd, '/');
 			if(file_exists($realCwd)) {
 				$retval = TRUE;
 				$this->realcwd = $realCwd;
@@ -107,7 +107,7 @@ class FileSystem extends baseAbstract {
 			$retval = 1;
 		} elseif(is_dir($this->realcwd .'/'. $newDir)) {
 			//relative path...
-			$this->cwd = cs_global::create_list($this->cwd, $newDir, '/');
+			$this->cwd = ToolBox::create_list($this->cwd, $newDir, '/');
 			$this->realcwd .= '/'. $newDir;
 			$retval = 1;
 		} else {
@@ -279,7 +279,7 @@ class FileSystem extends baseAbstract {
 		
 		$retval = 0;
 		$filename = $this->filename2absolute($filename);
-		$filename = cs_global::resolve_path_with_dots($filename);
+		$filename = ToolBox::resolve_path_with_dots($filename);
 		$this->filename = $filename;
 		
 		//check to see if the file exists...
@@ -399,7 +399,7 @@ class FileSystem extends baseAbstract {
 		
 		clearstatcache();
 		
-		$filename = cs_global::resolve_path_with_dots($filename);
+		$filename = ToolBox::resolve_path_with_dots($filename);
 		
 		//If it's a single filename beginning with a slash, strip the slash.
 		$x = array();
@@ -413,11 +413,11 @@ class FileSystem extends baseAbstract {
 			$retval = $filename;
 		} else {
 			$retval=$this->realcwd .'/'. $filename;
-			$retval = cs_global::resolve_path_with_dots($retval);
+			$retval = ToolBox::resolve_path_with_dots($retval);
 		}
 		
 		if(!$this->check_chroot($retval, FALSE)) {
-			cs_global::debug_print(func_get_args());
+			ToolBox::debug_print(func_get_args());
 			throw new exception(__METHOD__ .": file (". $retval .") is outside of allowed directory");
 		}
 		
@@ -593,7 +593,7 @@ class FileSystem extends baseAbstract {
 	 */
 	public function rename($currentFilename, $newFilename) {
 		if($newFilename == $currentFilename) {
-			cs_global::debug_print(func_get_args());
+			ToolBox::debug_print(func_get_args());
 			throw new exception(__METHOD__ .": renaming file to same name");
 		}
 		
@@ -603,7 +603,7 @@ class FileSystem extends baseAbstract {
 		
 		if($this->compare_open_filename($newFilename)) {
 			//renaming a different file to our currently open file... 
-			cs_global::debug_print(func_get_args());
+			ToolBox::debug_print(func_get_args());
 			throw new exception(__METHOD__ .": renaming another file (". $currentFilename .") to the currently open filename (". $newFilename .")");
 		}
 		else {
@@ -791,12 +791,12 @@ class FileSystem extends baseAbstract {
 			$pathDir = $pathPieces[$index];
 			if($pathDir != $dirName) {
 				$retval = FALSE;
-		cs_global::debug_print(__METHOD__ .": comparing rootPieces to pathPieces... rootPieces::: ". cs_global::debug_print($rootPieces,0) . " pathPieces::: ".
-				cs_global::debug_print($pathPieces,0));
-				cs_global::debug_print(__METHOD__ .": failed... root=(". $this->root ."), tmp=(". $tmp ."), dirName=(". $dirName ."), translatePath=(". $translatePath .")");
+		ToolBox::debug_print(__METHOD__ .": comparing rootPieces to pathPieces... rootPieces::: ". ToolBox::debug_print($rootPieces,0) . " pathPieces::: ".
+				ToolBox::debug_print($pathPieces,0));
+				ToolBox::debug_print(__METHOD__ .": failed... root=(". $this->root ."), tmp=(". $tmp ."), dirName=(". $dirName ."), translatePath=(". $translatePath .")");
 				break;
 			}
-			$tmp = cs_global::create_list($tmp, $dirName, '/');
+			$tmp = ToolBox::create_list($tmp, $dirName, '/');
 		}
 		
 		return($retval);
@@ -835,7 +835,7 @@ class FileSystem extends baseAbstract {
 				$retval = rename($filename, $destination);
 			}
 			else {
-				cs_global::debug_print(__METHOD__ .":: ". $this->check_chroot($destination),1);
+				ToolBox::debug_print(__METHOD__ .":: ". $this->check_chroot($destination),1);
 				throw new exception(__METHOD__ .':: destination is not in the directory path (from=['. $filename .'], to=['. $destination .']');
 			}
 		}

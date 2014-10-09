@@ -2,7 +2,7 @@
 
 namespace crazedsanity;
 
-class cs_global {
+class ToolBox {
 	
 	static public $debugRemoveHr = 0;
 	static public $debugPrintOpt = 0;
@@ -112,7 +112,7 @@ class cs_global {
 							if(in_array($myCleanStringArg, array('int', 'integer', 'numeric', 'number', 'decimal', 'float'))) {
 								$myUseSqlQuotes = false;
 							}
-							$array[$myIndex] = cs_global::cleanString($array[$myIndex], $myCleanStringArg, $myUseSqlQuotes);
+							$array[$myIndex] = ToolBox::cleanString($array[$myIndex], $myCleanStringArg, $myUseSqlQuotes);
 							unset($myUseSqlQuotes);
 						}
 					}
@@ -127,17 +127,17 @@ class cs_global {
 				//build temporary data...
 				$tmp = array();
 				foreach($array as $key=>$value) {
-					@$tmp[0] = cs_global::create_list($tmp[0], $key);
+					@$tmp[0] = ToolBox::create_list($tmp[0], $key);
 					//clean the string, if required.
 					if(is_null($value)) {
 						$value = "NULL";
 					}
 					elseif($cleanString) {
 						//make sure it's not full of poo...
-						$value = cs_global::cleanString($value, "sql");
+						$value = ToolBox::cleanString($value, "sql");
 						#$value = "'". $value ."'";
 					}
-					@$tmp[1] = cs_global::create_list($tmp[1], $value, ",", 1);
+					@$tmp[1] = ToolBox::create_list($tmp[1], $value, ",", 1);
 				}
 				
 				//make the final product.
@@ -159,7 +159,7 @@ class cs_global {
 					}
 					if($cleanString && !(preg_match('/^\'/',$value) && preg_match('/\'$/', $value))) {
 						//make sure it doesn't have crap in it...
-						$value = cs_global::cleanString($value, "sql",$sqlQuotes);
+						$value = ToolBox::cleanString($value, "sql",$sqlQuotes);
 					}
 					if($value == "'") {
 						//Fix possible SQL-injection.
@@ -168,7 +168,7 @@ class cs_global {
 					elseif(!strlen($value)) {
 						$value = "''";
 					}
-					$retval = cs_global::create_list($retval, $field . $separator . $value);
+					$retval = ToolBox::create_list($retval, $field . $separator . $value);
 				}
 				break;
 				//++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -182,10 +182,10 @@ class cs_global {
 				foreach($array as $field=>$value) {
 					if($cleanString) {
 						//make sure it doesn't have crap in it...
-						$value = cs_global::cleanString($value, "sql");
+						$value = ToolBox::cleanString($value, "sql");
 						$value = "'". $value ."'";
 					}
-					$retval = cs_global::create_list($retval, $value, ", ");
+					$retval = ToolBox::create_list($retval, $value, ", ");
 				}
 				if($style == "order" && !preg_match('/order by/', strtolower($retval))) {
 					$retval = "ORDER BY ". $retval;
@@ -209,7 +209,7 @@ class cs_global {
 					$delimiter = "AND";
 					if(is_array($value)) {
 						//doing tricksie things!!!
-						$retval = cs_global::create_list($retval, $field ." IN (". cs_global::string_from_array($value) .")",
+						$retval = ToolBox::create_list($retval, $field ." IN (". ToolBox::string_from_array($value) .")",
 								" $delimiter ");
 					}
 					else {
@@ -219,12 +219,12 @@ class cs_global {
 						}
 						if($cleanString) {
 							//make sure it doesn't have crap in it...
-							$value = cs_global::cleanString($value, "sql");	
+							$value = ToolBox::cleanString($value, "sql");	
 						}
 						if(isset($separator)) {
 							$value = "'". $value ."'";	
 						}
-						$retval = cs_global::create_list($retval, $field . $separator . $value, " $delimiter ");
+						$retval = ToolBox::create_list($retval, $field . $separator . $value, " $delimiter ");
 					}
 				}
 				break;
@@ -239,9 +239,9 @@ class cs_global {
 					}
 					foreach($array as $field=>$value) {
 						if($cleanString && !is_array($cleanString)) {
-							$value = cs_global::cleanString($value, $cleanString);
+							$value = ToolBox::cleanString($value, $cleanString);
 						}
-						$retval = cs_global::create_list($retval, "$field=$value", $separator);
+						$retval = ToolBox::create_list($retval, "$field=$value", $separator);
 					}
 				}
 				break;
@@ -254,7 +254,7 @@ class cs_global {
 						$separator = '=';
 					}
 					foreach($array as $field=>$value) {
-						$retval = cs_global::create_list($retval, $field . $separator . $value, "\n");
+						$retval = ToolBox::create_list($retval, $field . $separator . $value, "\n");
 					}
 				}
 				break;
@@ -267,7 +267,7 @@ class cs_global {
 						$separator = '=';
 					}
 					foreach($array as $field=>$value) {
-						$retval = cs_global::create_list($retval, $field . $separator . $value, "<BR>\n");
+						$retval = ToolBox::create_list($retval, $field . $separator . $value, "<BR>\n");
 					}
 				}
 				break;
@@ -281,9 +281,9 @@ class cs_global {
 				}
 				foreach($array as $field=>$value) {
 					if($cleanString) {
-						$value = cs_global::cleanString($value, $cleanString);
+						$value = ToolBox::cleanString($value, $cleanString);
 					}
-					$retval = cs_global::create_list($retval, $value, $separator);
+					$retval = ToolBox::create_list($retval, $value, $separator);
 				}
 				//++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 			}
@@ -481,7 +481,7 @@ class cs_global {
 			case "bool":
 			case "boolean":
 				//makes it either T or F (gotta lower the string & only check the first char to ensure accurate results).
-				$cleanThis = cs_global::interpret_bool($cleanThis, array('f', 't'));
+				$cleanThis = ToolBox::interpret_bool($cleanThis, array('f', 't'));
 			break;
 			
 			case "date":
@@ -543,11 +543,11 @@ class cs_global {
 	 */
 	static public function debug_print($input=NULL, $printItForMe=NULL, $removeHR=NULL, $usePreTags=true) {
 		if(!is_numeric($removeHR)) {
-			$removeHR = cs_global::$debugRemoveHr;
+			$removeHR = ToolBox::$debugRemoveHr;
 		}
 
 		if(!is_numeric($printItForMe)) {
-			$printItForMe = cs_global::$debugPrintOpt;
+			$printItForMe = ToolBox::$debugPrintOpt;
 		}
 		
 		ob_start();
@@ -715,8 +715,8 @@ class cs_global {
 				//merge the arrays.
 				$myRepArr = array_merge($repArr[$value], $myRepArr);
 			}
-			$addThis = cs_global::mini_parser($useTemplateString, $myRepArr, "%%", "%%");
-			$retval = cs_global::create_list($retval, $addThis, "\n");
+			$addThis = ToolBox::mini_parser($useTemplateString, $myRepArr, "%%", "%%");
+			$retval = ToolBox::create_list($retval, $addThis, "\n");
 		}
 		
 		return($retval);
@@ -797,7 +797,7 @@ class cs_global {
 		$printThis = ob_get_contents();
 		ob_end_clean();
 		
-		return(cs_global::debug_print($printThis, $printItForMe, $removeHr));
+		return(ToolBox::debug_print($printThis, $printItForMe, $removeHr));
 	}//end debug_var_dump()
 	//##########################################################################
 	
@@ -845,7 +845,7 @@ class cs_global {
 					if(strlen($temp[0])) {
 						$tUrlPart = $temp[0];
 					}
-					$tUrl = cs_global::create_list($tUrl, $tUrlPart, '/');
+					$tUrl = ToolBox::create_list($tUrl, $tUrlPart, '/');
 				}
 				$url = $tUrl;
 			}

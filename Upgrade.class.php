@@ -420,7 +420,7 @@ class Upgrade extends baseAbstract {
 							$this->newVersion = $this->databaseVersion;
 						}
 						else {
-							$this->do_log(__METHOD__ .": upgradeList::: ". cs_global::debug_print($upgradeList,0), 'debug');
+							$this->do_log(__METHOD__ .": upgradeList::: ". ToolBox::debug_print($upgradeList,0), 'debug');
 							$this->error_handler(__METHOD__ .": finished upgrade, but version wasn't updated (expecting '". $this->versionFileVersion ."', got '". $this->databaseVersion ."')!!!");
 						}
 					}

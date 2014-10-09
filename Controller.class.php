@@ -8,15 +8,24 @@ abstract class Controller extends baseAbstract {
 	
 	
 	public function __construct(array $parameters) {
-		$this->parameters = null;
+		$this->parameters = $parameters;
 	}
 	
 	
+	/**
+	 * Display index page (action) for this controller.
+	 * 
+	 * @return crazedsanity\View
+	 */
 	abstract public function index();
 	
 	
-	public function after() {
-		
-	}
+	/**
+	 * Called after page load.  For things like logging, after business and 
+	 * display logic has been handled.
+	 * 
+	 * @return void
+	 */
+	abstract public function _after();
 	
 }

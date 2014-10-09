@@ -612,6 +612,20 @@ class contentSystem {
 	
 	
 	//------------------------------------------------------------------------
+	public function new_finish() {
+		//instantiate the controller... should be based on a route map...
+		$className = __NAMESPACE__ .'\\Controller\\'. $this->sectionArr[0];
+		try {
+			$controller = new $className();
+		} catch (Exception $ex) {
+
+		}
+	}
+	//------------------------------------------------------------------------
+	
+	
+	
+	//------------------------------------------------------------------------
 	/**
 	 * The super-magical method that includes files & finalizes things using 
 	 * the given templating engine. 

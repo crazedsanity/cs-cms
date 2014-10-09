@@ -13,7 +13,7 @@
 namespace crazedsanity;
 
 use crazedsanity\FileSystem;
-use crazedsanity\cs_global;
+use crazedsanity\ToolBox;
 use SimpleXMLElement;
 
 class SiteConfig extends baseAbstract {
@@ -124,10 +124,10 @@ class SiteConfig extends baseAbstract {
 		$value = preg_replace('/{\//', '{', $value);
 
 		//replace special vars.
-		$value = cs_global::mini_parser($value, $replacements, '{', '}');
+		$value = ToolBox::mini_parser($value, $replacements, '{', '}');
 		
 		if($cleanPath === true) {
-			$value = cs_global::resolve_path_with_dots($value);
+			$value = ToolBox::resolve_path_with_dots($value);
 		}
 		
 		return($value);
@@ -262,7 +262,7 @@ class SiteConfig extends baseAbstract {
 				$appUrl = '/';
 			}
 			else {
-				$appUrl = '/'. cs_global::string_from_array($bits, null, '/');
+				$appUrl = '/'. ToolBox::string_from_array($bits, null, '/');
 			}
 		}
 		

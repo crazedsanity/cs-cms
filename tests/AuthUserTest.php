@@ -1,7 +1,7 @@
 <?php
 
 use crazedsanity\AuthUser;
-use crazedsanity\cs_global;
+use crazedsanity\ToolBox;
 use crazedsanity\Session;
 use crazedsanity\SessionDB;
 
@@ -220,7 +220,7 @@ class TestOfAuthUser extends \TestDbAbstract {
 		$x = new AuthUser($this->dbObj);
 		
 		$data = $x->get_user_data('test', $x::STATUS_ENABLED);
-		$this->assertTrue(is_array($data), cs_global::debug_print($data));
+		$this->assertTrue(is_array($data), ToolBox::debug_print($data));
 		
 		$this->assertTrue(isset($data['uid']));
 		$this->assertTrue(isset($data['username']));
