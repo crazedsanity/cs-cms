@@ -10,6 +10,13 @@ install:
 
 script: phpunit --coverage-text
 
+services:
+    postgresql
+
+before_script:
+  - composer install
+  - psql -c 'create database _unittest_' -U postgres
+
 notifications:
   email:
     - github@crazedsanity.com
