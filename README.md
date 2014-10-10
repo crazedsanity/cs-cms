@@ -60,3 +60,9 @@ Column naming:
 
 Sequences in PostgreSQL (the DBMS that all CS projects are geared for) are 
 automatically generated in the form ```{full_table_name}_{primary_key}_seq```.
+
+An important aspect for this (seemingly redundant) naming scheme, using a 
+prefix, a meaningful name, is to consider what happens without this. Imagine 
+using a loose (or non-existent) standard in a massive code base; the database 
+has hundreds of tables, all with a column named "id".  Searching the code for 
+references to "id" will turn up hundreds of results.
