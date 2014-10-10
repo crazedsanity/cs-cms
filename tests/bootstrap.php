@@ -5,7 +5,6 @@
 // set the timezone to avoid spurious errors from PHP
 date_default_timezone_set("America/Chicago");
 
-require_once('PHPUnit/Autoload.php');
 require_once(dirname(__FILE__) .'/../AutoLoader.class.php');
 require_once(dirname(__FILE__) .'/../debugFunctions.php');
 
