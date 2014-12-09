@@ -1,7 +1,4 @@
 <?php
-/*
- * Created on Aug 19, 2009
- */
 
 namespace crazedsanity;
 
