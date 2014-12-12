@@ -1,11 +1,13 @@
 <?php
 
+namespace crazedsanity;
+
 use crazedsanity\Template;
 use crazedsanity\GenericPage;
 use crazedsanity\ToolBox;
 use crazedsanity\Message;
 
-class TestOfGenericPage extends PHPUnit_Framework_TestCase {
+class TestOfGenericPage extends \PHPUnit_Framework_TestCase {
 
 	public function test_instantiation() {
 		$x = new GenericPage(new Template(dirname(__FILE__) .'/files/templates/main.tmpl'));

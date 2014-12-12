@@ -3,6 +3,7 @@
  * Created on Jun 12, 2009
  */
 
+namespace crazedsanity;
 
 class TestOfDatabase extends TestDbAbstract {
 	

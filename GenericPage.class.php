@@ -34,6 +34,15 @@ class GenericPage extends baseAbstract {
 	}//end initialize_locals()
 	//----------------------------------------------------------------------------
 	
+	
+	
+	//----------------------------------------------------------------------------
+	public function get_version() {
+		$v = $this->GetVersionObject();
+		return $v->get_version();
+	}
+	//----------------------------------------------------------------------------
+	
 
 
 	//----------------------------------------------------------------------------
@@ -73,6 +82,15 @@ class GenericPage extends baseAbstract {
 	 * TODO: check if $fileName exists before blindly trying to parse it.
 	 */
 	public function add_template_file($handleName, $fileName){
+		if(!file_exists($fileName)) {
+			$tryFile = preg_replace('/^\/\//', '/', $this->tmplDir .'/'. $fileName);
+			if(file_exists($tryFile)) {
+				$fileName = $tryFile;
+			}
+			else {
+				throw new \InvalidArgumentException("file (". $fileName .") does not exist");
+			}
+		}
 		$this->mainTemplate->add(new Template($fileName, $handleName), false);
 	}//end add_template_file()
 	//----------------------------------------------------------------------------
@@ -122,6 +140,7 @@ class GenericPage extends baseAbstract {
 
 	//----------------------------------------------------------------------------
 	public function print_page($stripUndefVars=true) {
+//		ToolBox::debug_print(__METHOD__ .": RENDERED PAGE: ". htmlentities($this->render_page($stripUndefVars)),1);
 		print $this->render_page($stripUndefVars);
 	}
 	//----------------------------------------------------------------------------
@@ -238,6 +257,14 @@ class GenericPage extends baseAbstract {
 		//TODO: set some restrictions on internal vars...
 		$this->$var = $val;
 	}//end __set()
+	//----------------------------------------------------------------------------
+	
+	
+	
+	//----------------------------------------------------------------------------
+	public function rip_all_block_rows() {
+		return;
+	}
 	//----------------------------------------------------------------------------
 
 }//end cs_genericPage{}

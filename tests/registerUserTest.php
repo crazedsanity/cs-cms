@@ -1,4 +1,5 @@
 <?php
+namespace crazedsanity;
 
 use crazedsanity\RegisterUser;
 

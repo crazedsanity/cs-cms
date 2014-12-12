@@ -1,5 +1,7 @@
 <?php
 
+namespace crazedsanity;
+
 use crazedsanity\Logger;
 use crazedsanity\ToolBox;
 

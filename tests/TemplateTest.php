@@ -1,11 +1,13 @@
 <?php
 
+namespace crazedsanity;
+
 use crazedsanity\Template;
 use crazedsanity\ToolBox;
 use \InvalidArgumentException;
 use \Exception;
 
-class TestOfTemplate extends PHPUnit_Framework_TestCase {
+class TestOfTemplate extends \PHPUnit_Framework_TestCase {
 
 	public function test_create() {
 		$justFile = new Template(dirname(__FILE__) .'/files/templates/main.tmpl');

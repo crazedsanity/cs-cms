@@ -1,10 +1,12 @@
 <?php
 
+namespace crazedsanity;
+
 use crazedsanity\baseAbstract;
 use crazedsanity\Lockfile;
 use crazedsanity\ToolBox;
 
-class TestOfLockfile extends PHPUnit_Framework_TestCase {
+class TestOfLockfile extends \PHPUnit_Framework_TestCase {
 	public $fs;
 	public $dir;
 	
@@ -48,7 +50,7 @@ class TestOfLockfile extends PHPUnit_Framework_TestCase {
 		
 		//tests based on using a specified lockfile
 		{
-			$myFile = __CLASS__ .'-test.lock';
+			$myFile = preg_replace('~\\\~', '_',__CLASS__) .'-test.lock';
 			$myTestContents = '('. __FILE__ .') '. __METHOD__ .': line #'. __LINE__ .': This is a test... '. microtime(true);
 
 			$lf = new _test_csLockfile($this->dir, $myFile);

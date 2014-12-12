@@ -42,7 +42,8 @@ class Template implements iTemplate {
 				}
 			}
 			else {
-				throw new \InvalidArgumentException("file does not exist (". $file .")");
+				debug_backtrace(1);
+				throw new \InvalidArgumentException("template file does not exist (". $file .")");
 			}
 		}
 	}

@@ -1,11 +1,13 @@
 <?php
 
+namespace crazedsanity;
+
 use crazedsanity\Template;
 use crazedsanity\Message;
 use crazedsanity\MessageQueue;
 use crazedsanity\ToolBox;
 
-class TestOfMessageAndMessageQueue extends PHPUnit_Framework_TestCase {
+class TestOfMessageAndMessageQueue extends \PHPUnit_Framework_TestCase {
     
     public function test_create() {
         $que = new MessageQueue();

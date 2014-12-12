@@ -1,7 +1,7 @@
 <?php
+namespace crazedsanity;
 
 use crazedsanity\SessionDB;
-use \TestDbAbstract;
 
 class TestOfCSSessionDB extends TestDbAbstract {
 	
@@ -105,7 +105,7 @@ class sessionTester extends SessionDB {
 		$this->$name = $value;
 	}
 	
-	public function __construct(crazedsanity\Database $db) {
+	public function __construct(Database $db) {
 		$this->db = $db;
 		parent::__construct(false, $db);
 	}

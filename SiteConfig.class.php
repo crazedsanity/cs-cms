@@ -12,6 +12,8 @@
 
 namespace crazedsanity;
 
+require_once(dirname(__FILE__ .'/base.abstract.php'));
+
 use crazedsanity\FileSystem;
 use crazedsanity\ToolBox;
 use SimpleXMLElement;
