@@ -11,11 +11,11 @@ require_once(dirname(__FILE__) .'/../debugFunctions.php');
 // Handle password compatibility (using "ircmaxell/password-compat")
 {
 	//handle differences in paths...
-	$versionTestPath = '/../../vendor/ircmaxell/password-compat/version-test.php';
+	$versionTestPath = '/vendor/ircmaxell/password-compat/version-test.php';
 	
 	// try going a few directories back to find the "ircmaxell" fix...
 	$usePath = $versionTestPath;
-	for($i=0; $i<3; $i++) {
+	for($i=0; $i<5; $i++) {
 		if(!file_exists(dirname(__FILE__) . $versionTestPath)) {
 			$versionTestPath = '/..'. $versionTestPath;
 		}
