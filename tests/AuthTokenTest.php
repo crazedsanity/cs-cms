@@ -7,7 +7,9 @@
 use crazedsanity\ToolBox;
 use crazedsanity\AuthToken;
 
-class AuthTokenTest extends \TestDbAbstract {
+namespace crazedsanity;
+
+class AuthTokenTest extends TestDbAbstract {
 
 	function __construct() {
 		parent::__construct();
@@ -205,7 +207,6 @@ class AuthTokenTest extends \TestDbAbstract {
 	}
 	
 	
-	
 	public function test_destroy_token() {
 		$x = new AuthToken($this->dbObj);
 		
@@ -220,14 +221,7 @@ class AuthTokenTest extends \TestDbAbstract {
 		
 		$this->assertEquals(false, $x->get_token_data($id));
 		
-		try {
-			$x->destroy_token($id);
-			$this->fail("successfully destroyed non-existent token");
-		} catch (Exception $ex) {
-			if(preg_match('/failed to destroy token/', $ex->getMessage())) {
-				$this->fail("Unexpected/malformed error message::: ". $ex->getMessage());
-			}
-		}
+		$this->assertEquals(0, $x->destroy_token($id));
 	}
 	
 	
@@ -275,6 +269,9 @@ class AuthTokenTest extends \TestDbAbstract {
 	
 	
 	
+	/**
+	 * @expectedException PDOException
+	 */
 	public function test_duplicates() {
 		$x = new AuthToken($this->dbObj);
 		
@@ -283,7 +280,7 @@ class AuthTokenTest extends \TestDbAbstract {
 		try {
 			$newId = $x->create_token('asdasd', null, $id);
 			$this->fail("created duplicate token... ($id == $newId)");
-		} catch (Exception $ex) {
+		} catch (PDOException $ex) {
 			if(preg_match('/attempt to create non-unique token ($id)/', $ex->getMessage())) {
 				$this->fail("unexpected/malformed error::: ". $ex->getMessage());
 			}
