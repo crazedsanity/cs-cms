@@ -17,6 +17,12 @@ class GenericPage extends baseAbstract {
 	
 	static $messages;
 	
+	
+	const MSGTYPE_NOTICE = "notice";
+	const MSGTYPE_STATUS = "status";
+	const MSGTYPE_ERROR = "error";
+	const MSGTYPE_FATAL = "fatal";
+	
 	//----------------------------------------------------------------------------
 	/**
 	 * The constructor.
@@ -177,7 +183,8 @@ class GenericPage extends baseAbstract {
 	 * @param $linkText			(str,optional) text that the link wraps.
 	 */
 	public static function set_message($title=NULL, $message=NULL, $linkURL=NULL, $type=NULL, $linkText=NULL) {
-		self::$messages->add(new Message($title, $message, $type, $linkURL, $linkText));
+		$message = new Message($title, $message, $type, $linkURL, $linkText);
+		self::$messages->add($message);
 	} // end of set_message()
 	//----------------------------------------------------------------------------
 	

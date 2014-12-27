@@ -10,8 +10,8 @@ namespace crazedsanity;
 class Template implements iTemplate {
 	private $_contents;
 	private $_name;
-	private $_templates = array();
-	private $_blockRows = array();
+	private $templates = array();
+	private $blockRows = array();
 	private $_origin;
 	private $_dir;
 	private $recursionDepth=10;
@@ -42,7 +42,6 @@ class Template implements iTemplate {
 				}
 			}
 			else {
-				debug_backtrace(1);
 				throw new \InvalidArgumentException("template file does not exist (". $file .")");
 			}
 		}
@@ -76,12 +75,12 @@ class Template implements iTemplate {
 		switch($name) {
 			case 'name':
 				return $this->_name;
-		
-			case 'templates':
-				return $this->_templates;
-
+			
 			case 'blockRows':
-				return $this->_blockRows;
+				return $this->blockRows;
+			
+			case 'templates':
+				return $this->templates;
 
 			case 'contents':
 				return $this->_contents;
@@ -93,7 +92,7 @@ class Template implements iTemplate {
 				return $this->_origin;
 			
 			default:
-				throw new \InvalidArgumentException;
+				throw new \InvalidArgumentException("no such internal var, '$name'");
 		}
 	}
 	//-------------------------------------------------------------------------
@@ -119,16 +118,22 @@ class Template implements iTemplate {
 	 */
 	public function add(\crazedsanity\Template $template, $render=true) {
 		foreach($template->templates as $name=>$content) {
-			$this->_templates[$name] = $content;
+			$this->templates[$name] = $content;
+			unset($template->templates[$name]);
+		}
+		
+		foreach($template->blockRows as $name=>$content) {
+			$this->blockRows[$name] = $content;
+			unset($template->blockRows[$name]);
 		}
 
 		$template->_contents = $this->get_block_row_defs($template->_contents);
 
 		if($render === true) {
-			$this->_templates[$template->name] = $template->render();
+			$this->templates[$template->name] = $template->render();
 		}
 		else {
-			$this->_templates[$template->name] = $template->contents;
+			$this->templates[$template->name] = $template->contents;
 		}
 	}
 	//-------------------------------------------------------------------------
@@ -159,13 +164,14 @@ class Template implements iTemplate {
 		$out = $this->_contents;
 
 		//handle block rows.
-		foreach($this->_blockRows as $name=>$blockRow) {
+		foreach($this->blockRows as $name=>$blockRow) {
 			$parsed = $blockRow->render();
+//\crazedsanity\ToolBox::debug_print(__METHOD__ .": parsing '". $name ."'... ::: ". htmlentities($parsed),1);
 			$this->addVar('__BLOCKROW__'. $name, $parsed, false); // calling render wastes time.
 		}
 
 		$rendered = array();
-		foreach($this->_templates as $name=>$obj) {
+		foreach($this->templates as $name=>$obj) {
 			if(is_object($obj)) {
 				$rendered[$name] = $obj->render();
 			}
@@ -239,8 +245,7 @@ class Template implements iTemplate {
 		foreach(array_reverse($beginArr) as $k=>$v) {
 			$tempRow = new Template(null, $v);
 			$tempRow->setContents($this->setBlockRow($templateContents, $v));
-			$this->_blockRows[$v] = $tempRow;
-
+			$this->blockRows[$v] = $tempRow;
 		}
 
 		return($templateContents);
@@ -251,6 +256,7 @@ class Template implements iTemplate {
 
 	//---------------------------------------------------------------------------------------------
 	private function setBlockRow(&$contents, $handle, $removeDefs=true) {
+//		ToolBox::debug_print(__METHOD__ .": setting blockrow for handle=(". $handle .")",1);
 		$name = $handle;
 
 		$reg = "/<!-- BEGIN $handle -->(.+){0,}<!-- END $handle -->/sU";
@@ -280,7 +286,7 @@ class Template implements iTemplate {
 	 * @param null $useTemplateVar      Parse into the given name instead of the default (__BLOCKROW__$name)
 	 */
 	public function parseBlockRow($name, array $listOfVarToValue, $useTemplateVar=null) {
-		if(isset($this->_blockRows[$name])) {
+		if(isset($this->blockRows[$name])) {
 			if(is_null($useTemplateVar)) {
 				$useTemplateVar = '__BLOCKROW__'. $name;
 			}
@@ -288,7 +294,7 @@ class Template implements iTemplate {
 			$final = "";
 			foreach($listOfVarToValue as $row => $kvp) {
 				if(is_array($kvp)) {
-					$tmp = clone $this->_blockRows[$name];
+					$tmp = clone $this->blockRows[$name];
 					foreach($kvp as $var=>$value) {
 						$tmp->addVar($var, $value);
 					}
@@ -298,7 +304,7 @@ class Template implements iTemplate {
 					throw new \InvalidArgumentException("malformed key value pair in row '". $row ."'");
 				}
 			}
-			unset($this->_blockRows[$name]);
+			unset($this->blockRows[$name]);
 			$this->addVar($useTemplateVar, $final);
 		}
 		else {

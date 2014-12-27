@@ -135,6 +135,9 @@ class TestOfTemplate extends \PHPUnit_Framework_TestCase {
 	public function test_blockRows() {
 		$x = new Template(dirname(__FILE__) .'/files/templates/mainWithBlockRow.tmpl');
 
+//ToolBox::debug_print($x->blockRows,1);
+//exit;
+
 		$this->assertTrue(is_array($x->blockRows), "missing block rows array");
 		$this->assertTrue(count($x->blockRows) > 0, "no block rows found... ");
 		$this->assertEquals(1, count($x->blockRows), "failed to parse block rows from main template");
