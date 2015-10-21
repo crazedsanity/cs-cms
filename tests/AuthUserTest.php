@@ -5,7 +5,7 @@ use crazedsanity\ToolBox;
 use crazedsanity\Session;
 use crazedsanity\SessionDB;
 
-class TestOfAuthUser extends \TestDbAbstract {
+class TestOfAuthUser extends crazedsanity\database\TestDbAbstract {
 	
 	public $userInfo = array(
 		'username'	=> 'test',

@@ -5,8 +5,8 @@
 // set the timezone to avoid spurious errors from PHP
 date_default_timezone_set("America/Chicago");
 
-require_once(dirname(__FILE__) .'/../AutoLoader.class.php');
-require_once(dirname(__FILE__) .'/../debugFunctions.php');
+require_once(__DIR__ .'/../vendor/autoload.php');
+#require_once(dirname(__FILE__) .'/../debugFunctions.php');
 
 // Handle password compatibility (using "ircmaxell/password-compat")
 {
@@ -39,8 +39,4 @@ if(!defined('UNITTEST__LOCKFILE')) { // fixes issues with running in a separate 
 	define('LIBDIR', dirname(__FILE__) .'/..');
 	define('UNITTEST_ACTIVE', true);
 }
-
-AutoLoader::registerDirectory(dirname(__FILE__) .'/../');
-AutoLoader::registerDirectory(dirname(__FILE__) .'/../interfaces/');
-
 

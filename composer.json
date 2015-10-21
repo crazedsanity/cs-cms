@@ -1,5 +1,8 @@
 {
     "require": {
-        "ircmaxell/password-compat": "~1.0"
+        "ircmaxell/password-compat": "~1.0",
+        "crazedsanity/database": "^0.3",
+        "crazedsanity/authtoken": "^0.1.2",
+        "crazedsanity/cs-content": "^1.3"
     }
 }

@@ -7,7 +7,7 @@
 use crazedsanity\ToolBox;
 use crazedsanity\AuthToken;
 
-class AuthTokenTest extends \TestDbAbstract {
+class AuthTokenTest extends \crazedsanity\database\TestDbAbstract {
 
 	function __construct() {
 		parent::__construct();
