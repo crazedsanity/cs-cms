@@ -1,9 +1,19 @@
-# Content Management System
+# Sane PHP Framework
 
-This is the CrazedSanity Content Management system.
+[![Build Status](https://travis-ci.org/crazedsanity/sanephp.svg?branch=master)](https://travis-ci.org/crazedsanity/sanephp)
 
-Technically, this isn't actually a CMS... yet.  Right now it's just a framework 
-to build a CMS, or any other web application, similar to CakePHP.
+This is the CrazedSanity framework for PHP web applications.  It provides a 
+variety of things:
+ * Templating
+ * Session management (including DB-stored sessions)
+ * Upgrade system
+ * Authentication tokens (lost password, API tokens, etc)
+ * User authorization
+ * and more!
+
+This is still a work in progress. Right now, it's a conglomeration of a lot of 
+different libraries that will eventually become one cohesive system, along the 
+lines of CakePHP and the like.
 
 ## Why Should I Use This?
 
