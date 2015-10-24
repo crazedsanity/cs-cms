@@ -1,6 +1,6 @@
 <?php
 
-namespace crazedsanity;
+namespace crazedsanity\sanephp;
 
 use \InvalidArgumentException;
 

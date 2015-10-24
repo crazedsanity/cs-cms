@@ -1,8 +1,24 @@
 {
+	"name":	"crazedsanity/sanephp",
+	"license": "MIT",
+	"description": "Web application framework for PHP",
+	"keywords": [ "php", "mvc", "framework", "application" ],
+	"authors": [
+		{
+			"name":	"Dan Falconer",
+			"email": "github@crazedsanity.com",
+			"homepage": "http://www.crazedsanity.com",
+			"role": "Developer"
+		}
+	],
+	"autoload": {
+		"classmap": ["src/"]
+	},
     "require": {
         "ircmaxell/password-compat": "~1.0",
         "crazedsanity/database": "^0.3",
         "crazedsanity/authtoken": "^0.1.2",
         "crazedsanity/cs-content": "^1.3"
-    }
+    },
+	"minimum-stability": "dev"
 }

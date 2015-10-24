@@ -3,7 +3,7 @@
  * Created on Aug 19, 2009
  */
 
-namespace crazedsanity;
+namespace crazedsanity\sanephp;
 
 /**
  * @codeCoverageIgnore
