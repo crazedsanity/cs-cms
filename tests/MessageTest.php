@@ -31,11 +31,12 @@ class TestOfMessageAndMessageQueue extends PHPUnit_Framework_TestCase {
 		
 		$this->assertTrue(strlen($out) > 0, "rendered message is blank");
 		
-		$this->assertEquals(3, preg_match_all('~TITLE: ~', $out), "could not find all titles... ". ToolBox::debug_print($out,0));
-		$this->assertEquals(3, preg_match_all('~MESSAGE: ~', $out), "could not find all message bodies");
-		$this->assertEquals(3, preg_match_all('~TYPE: ~', $out), "could not find all types");
-		$this->assertEquals(3, preg_match_all('~LINKTEXT: ~', $out), "could not find all linkText fields");
-		$this->assertEquals(3, preg_match_all('~URL: ~', $out), "could not find all url fields");
+		$matches = array();
+		$this->assertEquals(3, preg_match_all('~TITLE: ~', $out, $matches), "could not find all titles... ". ToolBox::debug_print($out,0));
+		$this->assertEquals(3, preg_match_all('~MESSAGE: ~', $out, $matches), "could not find all message bodies");
+		$this->assertEquals(3, preg_match_all('~TYPE: ~', $out, $matches), "could not find all types");
+		$this->assertEquals(3, preg_match_all('~LINKTEXT: ~', $out, $matches), "could not find all linkText fields");
+		$this->assertEquals(3, preg_match_all('~URL: ~', $out, $matches), "could not find all url fields");
 		
 		$this->assertEquals(0, $que->getCount(null), "message queue wasn't cleaned after render");
     }
