@@ -17,7 +17,7 @@ lines of CakePHP and the like.
 
 ## Why Should I Use This?
 
-CS-CMS uses a one-of-a-kind template system.  In this templating system, there 
+SanePHP uses a one-of-a-kind template system.  In this templating system, there 
 is *absolutely no logic allowed* in the templates, or "views" (in the context 
 of MVC).
 
@@ -25,7 +25,7 @@ of MVC).
 
 Templates are a natural way of thinking.  Consider a template in something like 
 Microsoft Word: there are placeholders for a client's name, which are replaced 
-with real values when used.  That is exactly how CS-CMS uses templates.
+with real values when used.  That is exactly how SanePHP uses templates.
 
 One interesting difference is that a template variable can be replaced with 
 another template. When building a webpage, a "main" template is created, 
