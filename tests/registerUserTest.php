@@ -1,6 +1,7 @@
 <?php
 
 use crazedsanity\RegisterUser;
+use crazedsanity\database\TestDbAbstract;
 
 class TestOfRegisterUser extends TestDbAbstract {
 	

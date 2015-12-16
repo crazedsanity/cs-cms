@@ -16,9 +16,11 @@
 	},
     "require": {
         "ircmaxell/password-compat": "~1.0",
-        "crazedsanity/database": "^0.3",
-        "crazedsanity/authtoken": "^0.1.2",
-        "crazedsanity/cs-content": "^1.3"
+        "crazedsanity/database": "~0.3",
+        "crazedsanity/authtoken": "~0.1.2",
+		"crazedsanity/filesystem": "dev-master",
+		"crazedsanity/template": "dev-master",
+		"crazedsanity/dbsession": "dev-master"
     },
 	"minimum-stability": "dev"
 }

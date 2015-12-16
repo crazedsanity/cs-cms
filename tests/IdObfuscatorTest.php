@@ -1,6 +1,7 @@
 <?php
 
 use crazedsanity\IdObfuscator;
+use crazedsanity\database\TestDbAbstract;
 
 class TestOfIdObfuscator extends TestDbAbstract {
 	

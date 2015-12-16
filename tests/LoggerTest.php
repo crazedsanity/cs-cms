@@ -2,6 +2,7 @@
 
 use crazedsanity\Logger;
 use crazedsanity\ToolBox;
+use crazedsanity\database\TestDbAbstract;
 
 class TestOfLogger extends TestDbAbstract {
 	

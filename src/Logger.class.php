@@ -18,6 +18,7 @@
 namespace crazedsanity;
 
 use crazedsanity\Upgrade;
+use crazedsanity\sanephp\baseAbstract;
 
 class Logger extends baseAbstract {
 	/** Database handle */

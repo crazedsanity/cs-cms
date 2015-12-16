@@ -2,6 +2,7 @@
 
 use crazedsanity\Bitwise;
 use crazedsanity\Permission;
+use crazedsanity\database\TestDbAbstract;
 
 class TestOfCSPermission extends TestDbAbstract {
 	public function test_bitwise() {

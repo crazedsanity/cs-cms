@@ -3,10 +3,10 @@
 namespace crazedsanity;
 
 use crazedsanity\ToolBox;
-use crazedsanity\SessionDB;
+use crazedsanity\dbsession\DBSession;
 use crazedsanity\Session;
 
-class AuthUser extends SessionDB {
+class AuthUser extends DBSession {
 	
 	/** Database connection object */
 	protected $db;
