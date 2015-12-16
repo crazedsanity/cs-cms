@@ -19,6 +19,8 @@ namespace crazedsanity;
 
 use crazedsanity\Upgrade;
 use crazedsanity\sanephp\baseAbstract;
+use crazedsanity\database\Database;
+use crazedsanity\core\ToolBox;
 
 class Logger extends baseAbstract {
 	/** Database handle */
@@ -90,14 +92,14 @@ class Logger extends baseAbstract {
 		
 //		$this->set_version_file_location(dirname(__FILE__) . '/VERSION');
 		self::GetVersionObject();
-		self::$version->set_version_file_location(dirname(__FILE__) .'/VERSION');
+		self::$version->set_version_file_location(__DIR__ .'/../VERSION');
 		
 		parent::__construct(true);
 		
 		//see if there's an upgrade to perform...
 		if($checkForUpgrades === true) {
 			$this->suspendLogging = true;
-			$upgObj = new Upgrade(dirname(__FILE__) . '/VERSION', dirname(__FILE__) .'/upgrades/upgrade.ini', $db);
+			$upgObj = new Upgrade(dirname(__FILE__) . '/../VERSION', dirname(__FILE__) .'/../upgrades/upgrade.ini', $db);
 			$upgObj->check_versions(true);
 			$this->suspendLogging = false;
 			$this->handle_suspended_logs();

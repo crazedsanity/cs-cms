@@ -2,10 +2,10 @@
 
 namespace crazedsanity;
 
-use crazedsanity\baseAbstract;
-use crazedsanity\Database;
+use crazedsanity\sanephp\baseAbstract;
+use crazedsanity\database\Database;
 use crazedsanity\Logger;
-use crazedsanity\ToolBox;
+use crazedsanity\core\ToolBox;
 
 class RegisterUser extends baseAbstract {
 	

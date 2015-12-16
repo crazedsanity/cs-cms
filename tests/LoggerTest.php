@@ -1,8 +1,9 @@
 <?php
 
 use crazedsanity\Logger;
-use crazedsanity\ToolBox;
+use crazedsanity\core\ToolBox;
 use crazedsanity\database\TestDbAbstract;
+use crazedsanity\database\Database;
 
 class TestOfLogger extends TestDbAbstract {
 	
@@ -141,7 +142,7 @@ class TestOfLogger extends TestDbAbstract {
 }
 
 class _logTester extends Logger {
-	public function __construct(\crazedsanity\Database $db) {
+	public function __construct(Database $db) {
 		$this->db = $db;
 	}
 	

@@ -2,7 +2,7 @@
 
 namespace crazedsanity;
 
-use crazedsanity\Template;
+use crazedsanity\template\Template;
 
 class Message {
     

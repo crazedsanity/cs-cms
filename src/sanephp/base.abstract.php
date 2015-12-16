@@ -5,6 +5,8 @@
 
 namespace crazedsanity\sanephp;
 
+use crazedsanity\version\Version;
+
 /**
  * @codeCoverageIgnore
  */

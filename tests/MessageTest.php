@@ -1,9 +1,9 @@
 <?php
 
-use crazedsanity\Template;
+use crazedsanity\template\Template;
 use crazedsanity\Message;
 use crazedsanity\MessageQueue;
-use crazedsanity\ToolBox;
+use crazedsanity\core\ToolBox;
 
 class TestOfMessageAndMessageQueue extends PHPUnit_Framework_TestCase {
     

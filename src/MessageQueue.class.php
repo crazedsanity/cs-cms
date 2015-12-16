@@ -2,8 +2,9 @@
 
 namespace crazedsanity;
 
-use crazedsanity\Template;
+use crazedsanity\template\Template;
 use crazedsanity\Message;
+use crazedsanity\sanephp\baseAbstract;
 
 class MessageQueue extends baseAbstract {
     

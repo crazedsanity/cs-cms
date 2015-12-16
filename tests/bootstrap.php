@@ -6,6 +6,7 @@
 date_default_timezone_set("America/Chicago");
 
 require_once(__DIR__ .'/../vendor/autoload.php');
+require_once(__DIR__ .'/../vendor/crazedsanity/core/src/core/debugFunctions.php');
 #require_once(dirname(__FILE__) .'/../debugFunctions.php');
 
 // Handle password compatibility (using "ircmaxell/password-compat")

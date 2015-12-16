@@ -1,8 +1,7 @@
 <?php
 
 use crazedsanity\AuthUser;
-use crazedsanity\ToolBox;
-use crazedsanity\Session;
+use crazedsanity\core\ToolBox;
 use crazedsanity\dbsession;
 
 class TestOfAuthUser extends crazedsanity\database\TestDbAbstract {

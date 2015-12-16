@@ -2,9 +2,9 @@
 
 namespace crazedsanity;
 
-use crazedsanity\ToolBox;
+use crazedsanity\core\ToolBox;
 use crazedsanity\dbsession\DBSession;
-use crazedsanity\Session;
+use crazedsanity\database\Database;
 
 class AuthUser extends DBSession {
 	

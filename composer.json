@@ -18,9 +18,12 @@
         "ircmaxell/password-compat": "~1.0",
         "crazedsanity/database": "~0.3",
         "crazedsanity/authtoken": "~0.1.2",
-		"crazedsanity/filesystem": "dev-master",
-		"crazedsanity/template": "dev-master",
-		"crazedsanity/dbsession": "dev-master"
+		"crazedsanity/filesystem": "~0.2",
+		"crazedsanity/template": "~0.4",
+		"crazedsanity/dbsession": "~0.1",
+		"crazedsanity/cs-content": "2.0.0-beta6",
+		"crazedsanity/siteconfig": "dev-master",
+		"crazedsanity/lockfile": "dev-master"
     },
 	"minimum-stability": "dev"
 }
