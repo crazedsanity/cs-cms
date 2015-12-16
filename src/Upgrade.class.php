@@ -89,8 +89,8 @@ class Upgrade extends baseAbstract {
 		$this->internalVersion->set_version_file_location(__DIR__ .'/../VERSION');
 		$this->internalProjectName = $this->internalVersion->get_project();
 		
-		$this->version = new Version();
-		$this->version->set_version_file_location(__DIR__ .'/../VERSION');
+		self::$version = new Version();
+		self::$version->set_version_file_location(__DIR__ .'/../VERSION');
 		
 		if(isset(self::$calls)) {
 			self::$calls += 1;
