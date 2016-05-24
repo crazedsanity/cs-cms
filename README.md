@@ -23,7 +23,7 @@ of MVC).
 
 ## Why Templates?
 
-Templates are a natural way of thinking.  Consider a template in something like 
+Templates are a natural way of marrying code to HTML.  Consider a template in something like 
 Microsoft Word: there are placeholders for a client's name, which are replaced 
 with real values when used.  That is exactly how SanePHP uses templates.
 
