@@ -85,12 +85,10 @@ class Upgrade extends baseAbstract {
 	//=========================================================================
 	public function __construct($versionFileLocation, $upgradeConfig, Database $db, $rwDir=null) {
 		
-		$this->internalVersion = new Version();
-		$this->internalVersion->set_version_file_location(__DIR__ .'/../VERSION');
+		$this->internalVersion = new Version(file_get_contents(__DIR__ .'/../VERSION'));
 		$this->internalProjectName = $this->internalVersion->get_project();
 		
-		self::$version = new Version();
-		self::$version->set_version_file_location(__DIR__ .'/../VERSION');
+		self::$version = new Version(file_get_contents(__DIR__ .'/../VERSION'));
 		
 		if(isset(self::$calls)) {
 			self::$calls += 1;
