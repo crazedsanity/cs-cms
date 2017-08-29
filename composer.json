@@ -25,5 +25,8 @@
 		"crazedsanity/siteconfig": "dev-master",
 		"crazedsanity/lockfile": "dev-master"
     },
+	"require-dev": {
+		"phpunit/phpunit": "^4.6 || ^5.0"
+	},
 	"minimum-stability": "dev"
 }
